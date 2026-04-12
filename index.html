@@ -10,217 +10,224 @@
 
     <style>
         :root {
-            --bg-color: #0a0a0a;
+            --bg-color: #050505;
             --header-bg: #ffffff;
             --text-header: #000000;
-            --card-bg: #1a1a1a;
+            --card-bg: #121212;
             --font-main: 'Inter', sans-serif;
-            /* COLORI RARITÀ */
-            --color-c: #aaaaaa;  
-            --color-nc: #169e1d; 
-            --color-r: #2054ff;  
-            --color-sr: #a632fa;
-            --color-ssr: #faed32;
-            
+            --color-c: #888888;  
+            --color-nc: #2ecc71; 
+            --color-r: #3498db;  
+            --color-sr: #9b59b6;
+            --color-ssr: #f1c40f;
+            --accent: #6200ea;
         }
 
         body {
             background-color: var(--bg-color);
             color: white;
             font-family: var(--font-main);
-            margin: 0;
-            padding: 0;
+            margin: 0; padding: 0;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
-            /* Impedisce che appaia il cursore di testo ovunque cliccando */
             user-select: none;
         }
 
         /* --- HEADER --- */
         header {
             background-color: var(--header-bg);
-            padding: 80px 20px;
+            padding: 60px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
             position: relative;
+            z-index: 10;
         }
 
         .logo-box {
-            position: absolute;
-            top: 50%;
-            left: 40px;
-            transform: translateY(-50%);
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-            z-index: 10;
-            cursor: pointer;
+            position: absolute; top: 50%; left: 5%; transform: translateY(-50%);
+            background: white; padding: 15px; border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2); z-index: 11; cursor: pointer;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
+        .logo-box:hover { transform: translateY(-55%) scale(1.05); }
+
         .panda-chopper {
-            position: absolute;
-            width: 180px;
-            right: 0;
-            bottom: -5px;
-            z-index: -1;
-            opacity: 0;
-            transform: translate(0, 0) scale(0.5);
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: absolute; width: 140px; right: 20px; bottom: -20px;
+            z-index: -1; opacity: 0; transform: scale(0.5);
+            transition: all 0.5s ease;
+            pointer-events: none;
         }
 
         .logo-box:hover .panda-chopper {
-            opacity: 1;
-            transform: translate(120px, 20px) scale(1) rotate(15deg);
+            opacity: 1; transform: translate(100px, -10px) scale(1) rotate(10deg);
         }
 
-        .logo-personalizzato { height: 100px; width: auto; display: block; }
+        .logo-personalizzato { height: 80px; width: auto; display: block; }
 
         h1 {
-            font-weight: 900;
-            font-size: clamp(2.5rem, 8vw, 4.5rem);
-            text-align: center;
-            text-transform: uppercase;
-            letter-spacing: -3px;
-            margin: 0;
-            color: var(--text-header);
-            line-height: 0.85;
+            font-weight: 900; font-size: clamp(2rem, 10vw, 5rem);
+            text-align: center; text-transform: uppercase; letter-spacing: -4px;
+            margin: 0; color: var(--text-header); line-height: 0.8;
         }
 
-        /* --- SWIPER SLIDER --- */
-        .swiper {
-            width: 100%;
-            height: 450px;
-            border-bottom: 2px solid #222;
-        }
+        /* --- SWIPER & PALLINI --- */
+        .swiper { width: 100%; height: 500px; position: relative; }
+        .swiper-slide img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.6); }
 
-        .swiper-slide img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: brightness(0.7);
+        .swiper-pagination-bullet { 
+            background: #fff !important; 
+            opacity: 0.5; 
+            transition: all 0.3s;
         }
-
-        .swiper-pagination-bullet { background: #fff !important; opacity: 0.5; }
         .swiper-pagination-bullet-active {
             background: var(--color-sr) !important;
             opacity: 1;
-            width: 25px;
+            width: 30px;
             border-radius: 5px;
-            transition: all 0.3s;
         }
 
         /* --- NAVBAR --- */
         .main-nav {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            padding: 20px;
-            background: #111;
-            border-bottom: 1px solid #222;
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            display: flex; justify-content: center; gap: 30px; padding: 15px;
+            background: rgba(17, 17, 17, 0.8); backdrop-filter: blur(10px);
+            border-bottom: 1px solid #222; position: sticky; top: 0; z-index: 100;
         }
 
         .nav-btn {
-            background: transparent;
-            color: #777;
-            border: none;
-            font-weight: 900;
-            text-transform: uppercase;
-            cursor: pointer;
-            font-size: 1.1rem;
-            transition: 0.3s;
-            padding: 10px 0;
-            border-bottom: 2px solid transparent;
-            outline: none; /* Rimuove bordo focus */
+            background: transparent; color: #555; border: none; font-weight: 900;
+            text-transform: uppercase; cursor: pointer; font-size: 1rem;
+            transition: 0.3s; padding: 10px 20px; border-radius: 8px;
         }
 
-        .nav-btn.active {
-            color: white;
-            border-bottom: 2px solid var(--color-sr);
-        }
-
-        .nav-btn:hover { color: white; }
+        .nav-btn.active { color: white; background: rgba(255,255,255,0.05); border-bottom: 2px solid var(--color-sr); }
+        .nav-btn:hover:not(.active) { color: #aaa; }
 
         /* --- CONTENUTI --- */
-        .container { max-width: 1300px; margin: 0 auto; padding: 40px 20px; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 60px 20px; }
         .content-section { display: none; }
-        .content-section.active { display: block; }
+        .content-section.active { display: block; animation: fadeIn 0.5s ease; }
 
-        /* Griglia Carte */
-        .album-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 30px; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- GRID SET & CARDS --- */
+        .album-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
+        
         .set-card {
-            background: #151515; border: 1px solid #333; border-radius: 12px; padding: 60px 20px;
-            text-align: center; cursor: pointer; transition: 0.3s;
+            background: linear-gradient(145deg, #1a1a1a, #111);
+            border: 1px solid #333; border-radius: 20px; padding: 80px 30px;
+            text-align: center; cursor: pointer; transition: 0.4s;
+            position: relative; overflow: hidden;
         }
-        .set-card:hover { border-color: var(--color-sr); transform: translateY(-5px); }
-
-        /* Info Carta */
-        .card-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 15px;
-            padding: 0 5px;
-        }
-
-        .card-name { font-weight: 700; letter-spacing: 1px; }
         
-        .rarity-badge {
-            font-weight: 900;
-            font-size: 0.85rem;
-            padding: 4px 10px;
-            border-radius: 6px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1.5px solid currentColor;
+        .set-card:hover { transform: translateY(-10px); border-color: var(--color-sr); box-shadow: 0 20px 40px rgba(166, 50, 250, 0.2); }
+
+        .card-item {
+            background: var(--card-bg); padding: 15px; border-radius: 18px; 
+            border: 1px solid #222; transition: 0.4s;
+        }
+        .card-item:hover {
+            transform: scale(1.03); border-color: #444; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        /* --- GRIGLIA VIDEO --- */
-        .video-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); 
-            gap: 20px; 
-        }
+        .card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; }
+        .card-name { font-weight: 700; font-size: 0.9rem; color: #eee; }
+        .rarity-badge { font-weight: 900; font-size: 0.75rem; padding: 4px 12px; border-radius: 20px; border: 1px solid currentColor; background: rgba(0,0,0,0.3); }
 
+        /* --- VIDEO --- */
+        .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
         .video-item { 
-            background: #151515; border-radius: 15px; overflow: hidden; border: 1px solid #333;
-            transition: 0.3s ease;
-            position: relative;
+            background: #111; border-radius: 20px; overflow: hidden; 
+            border: 1px solid #222; transition: 0.4s; position: relative; 
         }
-
         .video-item:hover { border-color: var(--color-sr); transform: translateY(-5px); }
-        
-        .video-item video { 
-            width: 100%; 
-            aspect-ratio: 9/16;
-            display: block; 
-            background: #000; 
-            object-fit: cover;
-            cursor: pointer;
-        }
-        
-        .video-info { padding: 15px; text-align: center; }
-        .video-info h3 { margin: 0; font-size: 1rem; text-transform: uppercase; color: white; }
+        .video-item video { width: 100%; aspect-ratio: 9/16; object-fit: cover; cursor: pointer; display: block; }
+        .video-info { padding: 20px; background: linear-gradient(transparent, #000); position: absolute; bottom: 0; width: 100%; box-sizing: border-box; }
+        .video-info h3 { margin: 0; font-size: 1.2rem; font-weight: 900; }
 
-        .btn-back {
-            background: white; color: black; border: none; padding: 12px 25px;
-            font-weight: 900; cursor: pointer; display: none; margin-bottom: 20px;
-            text-transform: uppercase;
-            outline: none;
+        .btn-back { 
+            background: white; color: black; border: none; padding: 15px 30px; 
+            font-weight: 900; cursor: pointer; display: none; margin-bottom: 30px; 
+            border-radius: 50px; text-transform: uppercase; letter-spacing: 1px;
+            transition: 0.3s;
         }
+        .btn-back:hover { transform: translateX(-5px); background: #eee; }
+
+        /* --- MODAL (LAYOUT MIGLIORATO) --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); display: none; align-items: center; justify-content: center;
+            z-index: 2000; padding: 20px; backdrop-filter: blur(10px);
+        }
+        .modal-content {
+            display: flex; max-width: 1100px; width: 100%; gap: 40px; position: relative; background: transparent;
+        }
+        .modal-left { flex: 1; display: flex; align-items: center; justify-content: center; }
+        .modal-left img { width: 100%; max-height: 80vh; object-fit: contain; border-radius: 20px; box-shadow: 0 0 50px rgba(0,0,0,0.5); }
+        
+        .modal-right { 
+            flex: 1.2; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            text-align: left;
+        }
+
+        .modal-right h2 { 
+            font-size: 3.5rem; font-weight: 900; margin: 0 0 40px 0; 
+            color: #fff; letter-spacing: -2px;
+        }
+
+        .desc-label {
+            font-size: 0.9rem; font-weight: 800; color: #ffffff;
+            text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px;
+        }
+
+        .desc-box { 
+            background: #222; /* Colore diverso per il layout descrizione */
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid #222; /* Bordo sottile */
+            min-height: 150px;
+        }
+
+        .desc { 
+            color: #eee; line-height: 1.6; font-size: 1.2rem; margin: 0; 
+            font-style: italic;
+        }
+        
+        .btn-back { background: white; color: black; border: none; padding: 15px 30px; font-weight: 900; cursor: pointer; display: none; margin-bottom: 30px; border-radius: 50px; }
 
         @media (max-width: 900px) {
-            .logo-box { position: static; transform: none; margin-bottom: 20px; }
+            header { padding: 40px 20px; }
+            .logo-box { position: relative; left: 0; transform: none; margin-bottom: 20px; }
             .panda-chopper { display: none; }
-            .swiper { height: 250px; }
-            .video-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+            .modal-content { flex-direction: column; gap: 20px; align-items: center; }
+            .modal-right { padding: 40px 30px; text-align: center; }
+            .modal-right h2 { font-size: 2rem; margin-bottom: 20px; }
+            .swiper { height: 300px; }
         }
     </style>
 </head>
 <body>
+
+        <div class="modal-overlay" id="modalCarta" onclick="chiudiAnteprima(event)">
+            <div class="modal-content" onclick="event.stopPropagation()">
+                
+                <div class="modal-left">
+            <img id="modalImg" src="" alt="Carta">
+        </div>
+            <div class="modal-right">
+                <h2 id="modalNome">00/00</h2>
+                
+                <div class="desc-label">Descrizione</div>
+                <div class="desc-box">
+                    <p class="desc" id="modalDesc"></p>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <header id="mainHeader">
         <div class="logo-box">
@@ -242,46 +249,41 @@
     <nav class="main-nav">
         <button class="nav-btn active" onclick="switchSection('cards', this)">Carte</button>
         <button class="nav-btn" onclick="switchSection('videos', this)">Video</button>
-        <button class="nav-btn" disabled>Coming Soon</button>
+        <button class="nav-btn" disabled style="opacity: 0.3; cursor: default;">Coming Soon</button>
     </nav>
 
     <div class="container">
         <div id="cards-section" class="content-section active">
-            <button class="btn-back" id="backBtn" onclick="renderSets()">← Torna ai Set</button>
+            <button class="btn-back" id="backBtn" onclick="renderSets()">← Torna indietro</button>
             <div class="album-grid" id="mainGrid"></div>
         </div>
 
         <div id="videos-section" class="content-section">
             <div class="video-grid">
-                
                 <div class="video-item">
                     <video loop muted playsinline preload="metadata" onmouseover="this.play()" onmouseout="this.pause(); this.currentTime = 0;">
                         <source src="ViDeO/HxH.mp4" type="video/mp4">
                     </video>
                     <div class="video-info"><h3>Hunter x Hunter</h3></div>
                 </div>
-
                 <div class="video-item">
                     <video loop muted playsinline preload="metadata" onmouseover="this.play()" onmouseout="this.pause(); this.currentTime = 0;">
                         <source src="ViDeO/Arcane.mp4" type="video/mp4">
                     </video>
                     <div class="video-info"><h3>Arcane</h3></div>
                 </div>
-
                 <div class="video-item">
                     <video loop muted playsinline preload="metadata" onmouseover="this.play()" onmouseout="this.pause(); this.currentTime = 0;">
                         <source src="ViDeO/InV.mp4" type="video/mp4">
                     </video>
                     <div class="video-info"><h3>Invincible</h3></div>
                 </div>
-
                 <div class="video-item">
                     <video loop muted playsinline preload="metadata" onmouseover="this.play()" onmouseout="this.pause(); this.currentTime = 0;">
                         <source src="ViDeO/Ben10.mp4" type="video/mp4">
                     </video>
                     <div class="video-info"><h3>Ben 10</h3></div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -291,86 +293,57 @@
     <script>
         const NOME_SITO = "DeD<br>Creative Studio";
 
-        function getRarityColor(rarity) {
-            const r = rarity.toUpperCase();
-            if (r === 'C') return 'var(--color-c)';
-            if (r === 'NC') return 'var(--color-nc)';
-            if (r === 'R') return 'var(--color-r)';
-            if (r === 'SR') return 'var(--color-sr)';
-            if (r === 'SSR') return 'var(--color-ssr)';
-            return '#fff';
-        }
-
-        const swiper = new Swiper('.swiper', {
-            loop: true,
-            speed: 1000,
-            autoplay: { delay: 3500, disableOnInteraction: false },
-            pagination: { el: '.swiper-pagination', clickable: true },
-            grabCursor: true
-        });
-
-        function switchSection(sectionId, btn) {
-            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById(sectionId + '-section').classList.add('active');
-            btn.classList.add('active');
-            if(sectionId === 'videos') renderSets();
-            window.scrollTo(0, 0);
-            document.activeElement.blur(); // Rimuove il cursore/focus
-        }
-
         const database = {
             "set-base": {
-                titolo: "SET - 01", // Cambiato in MAIUSCOLO
+                titolo: "SET - 01",
                 carte: [
-                    { nome: "01/40", rarita: "C", immagine: "CarD - Collection/Card Collection/4.png" },
-                    { nome: "02/40", rarita: "C", immagine: "CarD - Collection/Card Collection/5.png" },
-                    { nome: "03/40", rarita: "R", immagine: "CarD - Collection/Card Collection/6.png" },
-                    { nome: "04/40", rarita: "C", immagine: "CarD - Collection/Card Collection/7.png" },
-                    { nome: "05/40", rarita: "C", immagine: "CarD - Collection/Card Collection/8.png" },
-                    { nome: "06/40", rarita: "NC", immagine: "CarD - Collection/Card Collection/9.png" },
-                    { nome: "07/40", rarita: "C", immagine: "CarD - Collection/Card Collection/10.png" },
-                    { nome: "08/40", rarita: "NC", immagine: "CarD - Collection/Card Collection/11.png" },
-                    { nome: "09/40", rarita: "NC", immagine: "CarD - Collection/Card Collection/12.png" },
-                    { nome: "10/40", rarita: "C", immagine: "CarD - Collection/Card Collection/13.png" },
-                    { nome: "11/40", rarita: "C", immagine: "CarD - Collection/Card Collection/14.png" },
-                    { nome: "12/40", rarita: "C", immagine: "CarD - Collection/Card Collection/15.png" },
-                    { nome: "13/40", rarita: "NC", immagine: "CarD - Collection/Card Collection/16.png" },
-                    { nome: "14/40", rarita: "C", immagine: "CarD - Collection/Card Collection/17.png" },
-                    { nome: "15/40", rarita: "R", immagine: "CarD - Collection/Card Collection/18.png" },
-                    { nome: "16/40", rarita: "NC", immagine: "CarD - Collection/Card Collection/19.png" },
-                    { nome: "17/40", rarita: "NC", immagine: "CarD - Collection/Card Collection/20.png" },
-                    { nome: "18/40", rarita: "NC", immagine: "CarD - Collection/Card Collection/21.png" },
-                    { nome: "19/40", rarita: "C", immagine: "CarD - Collection/Card Collection/22.png" },
-                    { nome: "20/40", rarita: "R", immagine: "CarD - Collection/Card Collection/23.png" },
-                    { nome: "21/40", rarita: "C", immagine: "CarD - Collection/Card Collection/24.png" },
-                    { nome: "22/40", rarita: "C", immagine: "CarD - Collection/Card Collection/25.png" },
-                    { nome: "23/40", rarita: "C", immagine: "CarD - Collection/Card Collection/26.png" },
-                    { nome: "24/40", rarita: "NC", immagine: "CarD - Collection/Card Collection/27.png" },
-                    { nome: "25/40", rarita: "C", immagine: "CarD - Collection/Card Collection/28.png" },
-                    { nome: "26/40", rarita: "C", immagine: "CarD - Collection/Card Collection/29.png" },
-                    { nome: "27/40", rarita: "SR", immagine: "CarD - Collection/Card Collection/30.png" },
-                    { nome: "28/40", rarita: "R", immagine: "CarD - Collection/Card Collection/31.png" },
-                    { nome: "29/40", rarita: "C", immagine: "CarD - Collection/Card Collection/32.png" },
-                    { nome: "30/40", rarita: "R", immagine: "CarD - Collection/Card Collection/33.png" },
-                    { nome: "31/40", rarita: "C", immagine: "CarD - Collection/Card Collection/34.png" },
-                    { nome: "32/40", rarita: "R", immagine: "CarD - Collection/Card Collection/35.png" },
-                    { nome: "33/40", rarita: "C", immagine: "CarD - Collection/Card Collection/36.png" },
-                    { nome: "34/40", rarita: "NC", immagine: "CarD - Collection/Card Collection/37.png" },
-                    { nome: "35/40", rarita: "SR", immagine: "CarD - Collection/Card Collection/38.png" },
-                    { nome: "36/40", rarita: "C", immagine: "CarD - Collection/Card Collection/39.png" },
-                    { nome: "37/40", rarita: "SR", immagine: "CarD - Collection/Card Collection/40.png" },
-                    { nome: "38/40", rarita: "SR", immagine: "CarD - Collection/Card Collection/41.png" },
-                    { nome: "39/40", rarita: "R", immagine: "CarD - Collection/Card Collection/42.png" },
-                    { nome: "40/40", rarita: "SR", immagine: "CarD - Collection/Card Collection/43.png" }
+                    { nome: "01/40", rarita: "C", immagine: "CarD - Collection/Card Collection/4.png", desc: "<i>“Mi piacciono le topoline...”</i>" },
+                    { nome: "02/40", rarita: "C", immagine: "CarD - Collection/Card Collection/5.png", desc: "<i>“Terrorista a natale!”</i>" },
+                    { nome: "03/40", rarita: "R", immagine: "CarD - Collection/Card Collection/6.png", desc: "<i>“Se Barbie avesse incontrato Gioele, Ken sarebbe rimasto nel cassetto.”</i>" },
+                    { nome: "04/40", rarita: "C", immagine: "CarD - Collection/Card Collection/7.png", desc: "<i>“Io...solo alta borghesia”</i>" },
+                    { nome: "05/40", rarita: "C", immagine: "CarD - Collection/Card Collection/8.png", desc: "<i>“Il nuovo Frank Sinatra”</i>" },
+                    { nome: "06/40", rarita: "NC", immagine: "CarD - Collection/Card Collection/9.png", desc: "<i>“Ho fame! Tanta fame!”</i>" },
+                    { nome: "07/40", rarita: "C", immagine: "CarD - Collection/Card Collection/10.png", desc: "<i>“Il miglior Producer che io conosca”</i>" },
+                    { nome: "08/40", rarita: "NC", immagine: "CarD - Collection/Card Collection/11.png", desc: "<i>“Voglio diventare il Lord delle aquile!”</i>" },
+                    { nome: "09/40", rarita: "NC", immagine: "CarD - Collection/Card Collection/12.png", desc: "<i>“Sono sud americano...è ovvio che bevo tanto”</i>" },
+                    { nome: "10/40", rarita: "C", immagine: "CarD - Collection/Card Collection/13.png", desc: "<i>“Colui che non conosce i limiti”</i>" },
+                    { nome: "11/40", rarita: "C", immagine: "CarD - Collection/Card Collection/14.png", desc: "<i>“ATTENZIONE: possono attirare moscerini.”</i>" },
+                    { nome: "12/40", rarita: "C", immagine: "CarD - Collection/Card Collection/15.png", desc: "<i>“Sotto le luci del Mc, aspettando il Big Mac”</i>" },
+                    { nome: "13/40", rarita: "NC", immagine: "CarD - Collection/Card Collection/16.png", desc: "<i>“ATTACO IN SALTOO!! AAARGHH!!”</i>" },
+                    { nome: "14/40", rarita: "C", immagine: "CarD - Collection/Card Collection/17.png", desc: "<i>“Quando sei stanco e ti sdrai sulla prima cosa che vedi... ”</i>" },
+                    { nome: "15/40", rarita: "R", immagine: "CarD - Collection/Card Collection/18.png", desc: "<i>“Andres versione chad?...ECCO CHANDRES!!”</i>" },
+                    { nome: "16/40", rarita: "NC", immagine: "CarD - Collection/Card Collection/19.png", desc: "<i>“Povero Claudio...ormai si immagina di baciare la sua amata.”</i>" },
+                    { nome: "17/40", rarita: "NC", immagine: "CarD - Collection/Card Collection/20.png", desc: "<i>“Coca Zero, Mercedes-Benz e tanto caldo”</i>" },
+                    { nome: "18/40", rarita: "NC", immagine: "CarD - Collection/Card Collection/21.png", desc: "<i>“Dai andiamo a comprare qualche pacchetto Pokèmon...100€ a testa.”</i>" },
+                    { nome: "19/40", rarita: "C", immagine: "CarD - Collection/Card Collection/22.png", desc: "<i>“SCHIAVI...e un po' gay?”</i>" },
+                    { nome: "20/40", rarita: "R", immagine: "CarD - Collection/Card Collection/23.png", desc: "<i>“Freaky MODE....actived”</i>" },
+                    { nome: "21/40", rarita: "C", immagine: "CarD - Collection/Card Collection/24.png", desc: "<i>“Quando la gang è insieme...solo follie”</i>" },
+                    { nome: "22/40", rarita: "C", immagine: "CarD - Collection/Card Collection/25.png", desc: "<i>“Un fratello per scelta”</i>" },
+                    { nome: "23/40", rarita: "C", immagine: "CarD - Collection/Card Collection/26.png", desc: "<i>“Simile al suo sticker preferito...”</i>" },
+                    { nome: "24/40", rarita: "NC", immagine: "CarD - Collection/Card Collection/27.png", desc: "<i>“Kiss me....please!”</i>" },
+                    { nome: "25/40", rarita: "C", immagine: "CarD - Collection/Card Collection/28.png", desc: "<i>“Eh...quante dormite cosi..”</i>" },
+                    { nome: "26/40", rarita: "C", immagine: "CarD - Collection/Card Collection/29.png", desc: "<i>“Montagna e carne...alla fine ci siamo mangiati anche una pizza”</i>" },
+                    { nome: "27/40", rarita: "SR", immagine: "CarD - Collection/Card Collection/30.png", desc: "<i>Bachata? No bro… questa è Gay-chata!</i>" },
+                    { nome: "28/40", rarita: "R", immagine: "CarD - Collection/Card Collection/31.png", desc: "<i>“Una tranquilla partita di risiko...”</i>" },
+                    { nome: "29/40", rarita: "C", immagine: "CarD - Collection/Card Collection/32.png", desc: "<i>“Claudio...ho bisogno di un'abbraccio”</i>" },
+                    { nome: "30/40", rarita: "R", immagine: "CarD - Collection/Card Collection/33.png", desc: "<i>“Thousand Yard Stare”</i>" },
+                    { nome: "31/40", rarita: "C", immagine: "CarD - Collection/Card Collection/34.png", desc: "<i>“Hmmm....si, sei propio bello!”</i>" },
+                    { nome: "32/40", rarita: "R", immagine: "CarD - Collection/Card Collection/35.png", desc: "<i>“Il grande tuffo nel naviglio di Beppe”</i>" },
+                    { nome: "33/40", rarita: "C", immagine: "CarD - Collection/Card Collection/36.png", desc: "<i>“Che ricordi...il baffo, stavo proprio bene”</i>" },
+                    { nome: "34/40", rarita: "NC", immagine: "CarD - Collection/Card Collection/37.png", desc: "<i>“STRABRASILIANE e TI MANCO...due hit fortissime!”</i>" },
+                    { nome: "35/40", rarita: "SR", immagine: "CarD - Collection/Card Collection/38.png", desc: "<i>“Il Campione di Clash Royal del server DS: Friends”</i>" },
+                    { nome: "36/40", rarita: "C", immagine: "CarD - Collection/Card Collection/39.png", desc: "<i>“VIENI QUII...PASTICCINOOO!!”</i>" },
+                    { nome: "37/40", rarita: "SR", immagine: "CarD - Collection/Card Collection/40.png", desc: "<i>“Beppe in 60's style”</i>" },
+                    { nome: "38/40", rarita: "SR", immagine: "CarD - Collection/Card Collection/41.png", desc: "<i>“Il sacro Re della patata seduto nel suo trono...aspettando la sua patatina”</i>" },
+                    { nome: "39/40", rarita: "R", immagine: "CarD - Collection/Card Collection/42.png", desc: "<i>“Tanto divertimento e tante vincite, WUUPIII!!”</i>" },
+                    { nome: "40/40", rarita: "SR", immagine: "CarD - Collection/Card Collection/43.png", desc: "<i>“Tanti ricordi...di momenti indimenticabili, di momenti folli!”</i>" }
                 ]
             },
             "set-promo": {
                 titolo: "PROMO - A",
                 carte: [
-                    { nome: "01/02", rarita: "SR", immagine: "Card - Collection Promo/1.png" },
-                    { nome: "02/02", rarita: "SR", immagine: "Card - Collection Promo/2.png" },
-                    
+                    { nome: "01/02", rarita: "SR", immagine: "Card - Collection Promo/1.png", desc: "<i>Carta promozionale speciale.</i>" },
+                    { nome: "02/02", rarita: "SR", immagine: "Card - Collection Promo/2.png", desc: "<i>Carta PROMO</i>"}
                 ]
             },
             "Extra-Set": {
@@ -396,14 +369,39 @@
                     { nome: "18/19", rarita: "C", immagine: "Card Game Collection SET°01/18.png" },
                     { nome: "19/19", rarita: "C", immagine: "Card Game Collection SET°01/19.png" }
                 ]
-            },
-
+            }
         };
 
         const grid = document.getElementById('mainGrid');
         const backBtn = document.getElementById('backBtn');
         const headerTitle = document.getElementById('mainTitle');
         const sliderEl = document.getElementById('heroSlider');
+
+        function getRarityColor(rarity) {
+            const r = rarity.toUpperCase();
+            if (r === 'C') return 'var(--color-c)';
+            if (r === 'NC') return 'var(--color-nc)';
+            if (r === 'R') return 'var(--color-r)';
+            if (r === 'SR') return 'var(--color-sr)';
+            if (r === 'SSR') return 'var(--color-ssr)';
+            return '#fff';
+        }
+
+        const swiper = new Swiper('.swiper', {
+            loop: true, speed: 1200,
+            autoplay: { delay: 4000, disableOnInteraction: false },
+            pagination: { el: '.swiper-pagination', clickable: true },
+            effect: 'fade', fadeEffect: { crossFade: true }
+        });
+
+        function switchSection(sectionId, btn) {
+            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(sectionId + '-section').classList.add('active');
+            btn.classList.add('active');
+            if(sectionId === 'cards') renderSets();
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
 
         function renderSets() {
             backBtn.style.display = 'none';
@@ -412,33 +410,45 @@
             grid.innerHTML = Object.keys(database).map(key => `
                 <div class="set-card" onclick="renderCards('${key}')">
                     <h2 style="text-transform: uppercase;">${database[key].titolo}</h2>
-                    <p>${database[key].carte.length} CARTE</p>
+                    <p style="opacity:0.6; font-weight:700;">${database[key].carte.length} CARTE DISPONIBILI</p>
                 </div>
             `).join('');
-            document.activeElement.blur();
         }
 
         function renderCards(setKey) {
             const set = database[setKey];
-            backBtn.style.display = 'block';
+            backBtn.style.display = 'inline-block';
             sliderEl.style.display = 'none';
             headerTitle.innerText = set.titolo;
             
-            grid.innerHTML = set.carte.map(c => {
+            grid.innerHTML = set.carte.map((c, index) => {
                 const color = getRarityColor(c.rarita);
                 return `
-                <div style="background:var(--card-bg); padding:12px; border-radius:12px; border:1px solid #333;">
-                    <img src="${c.immagine}" style="width:100%; border-radius:8px;" onerror="this.src='https://via.placeholder.com/250x350?text=Manca+Immagine'">
+                <div class="card-item" onclick="apriAnteprima('${setKey}', ${index})">
+                    <img src="${c.immagine}" style="width:100%; border-radius:12px;" onerror="this.src='https://via.placeholder.com/250x350?text=Image+Missing'">
                     <div class="card-footer">
                         <span class="card-name">${c.nome}</span>
-                        <div class="rarity-badge" style="color:${color};">
+                        <div class="rarity-badge" style="color:${color}; border-color:${color};">
                             <span>${c.rarita}</span>
                         </div>
                     </div>
                 </div>
             `}).join('');
-            window.scrollTo(0,0);
-            document.activeElement.blur();
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        function apriAnteprima(setKey, cardIndex) {
+            const carta = database[setKey].carte[cardIndex];
+            document.getElementById('modalImg').src = carta.immagine;
+            document.getElementById('modalNome').innerText = carta.nome;
+            document.getElementById('modalDesc').innerHTML = carta.desc || "<i>Nessuna descrizione disponibile per questa carta.</i>";
+            document.getElementById('modalCarta').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function chiudiAnteprima(event) {
+            document.getElementById('modalCarta').style.display = 'none';
+            document.body.style.overflow = 'auto';
         }
 
         renderSets();
