@@ -446,12 +446,23 @@
             document.body.style.overflow = 'hidden';
         }
 
-        function chiudiAnteprima(event) {
+       function chiudiAnteprima(event) {
+            if (event && event.stopPropagation) {
+            event.stopPropagation();
+        }
+    
             document.getElementById('modalCarta').style.display = 'none';
             document.body.style.overflow = 'auto';
         }
 
         renderSets();
+
+            document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape") {
+            console.log("Tasto ESC premuto"); 
+            chiudiAnteprima();
+        }
+            });
     </script>
 </body>
 </html>
