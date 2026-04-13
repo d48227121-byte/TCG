@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DeD Creative Studio | TM</title>
-
+    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
@@ -146,7 +146,6 @@
         .video-info { padding: 20px; background: linear-gradient(transparent, #000); position: absolute; bottom: 0; width: 100%; box-sizing: border-box; }
         .video-info h3 { margin: 0; font-size: 1.2rem; font-weight: 900; }
 
-        /* --- TAŠTO TORNA INDIETRO (RIPRISTINATO) --- */
         .btn-back { 
             background: white; color: black; border: none; padding: 15px 30px; 
             font-weight: 900; cursor: pointer; display: none; margin-bottom: 30px; 
@@ -155,7 +154,7 @@
         }
         .btn-back:hover { transform: translateX(-5px); background: #eee; }
 
-        /* --- MODAL FLIP --- */
+        /* --- MODAL (LAYOUT MIGLIORATO) --- */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.9); display: none; align-items: center; justify-content: center;
@@ -165,19 +164,40 @@
             display: flex; max-width: 1100px; width: 100%; gap: 40px; position: relative; background: transparent;
         }
         .modal-left { flex: 1; display: flex; align-items: center; justify-content: center; }
+        .modal-left img { width: 100%; max-height: 80vh; object-fit: contain; border-radius: 20px; box-shadow: 0 0 50px rgba(0,0,0,0.5); }
         
-        .flip-card { background-color: transparent; width: 100%; perspective: 1000px; cursor: pointer; }
-        .flip-card-inner { position: relative; width: 100%; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); transform-style: preserve-3d; }
-        .flip-card.is-flipped .flip-card-inner { transform: rotateY(180deg); }
-        .flip-card-front, .flip-card-back { width: 100%; backface-visibility: hidden; border-radius: 20px; }
-        .flip-card-front img, .flip-card-back img { width: 100%; display: block; border-radius: 20px; box-shadow: 0 0 50px rgba(0,0,0,0.5); }
-        .flip-card-back { position: absolute; top: 0; left: 0; height: 100%; transform: rotateY(180deg); }
+        .modal-right { 
+            flex: 1.2; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            text-align: left;
+        }
 
-        .modal-right { flex: 1.2; display: flex; flex-direction: column; justify-content: center; text-align: left; }
-        .modal-right h2 { font-size: 3.5rem; font-weight: 900; margin: 0 0 40px 0; color: #fff; letter-spacing: -2px; }
-        .desc-label { font-size: 0.9rem; font-weight: 800; color: #ffffff; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
-        .desc-box { background: #222; padding: 30px; border-radius: 20px; border: 1px solid #222; min-height: 150px; }
-        .desc { color: #eee; line-height: 1.6; font-size: 1.2rem; margin: 0; font-style: italic; }
+        .modal-right h2 { 
+            font-size: 3.5rem; font-weight: 900; margin: 0 0 40px 0; 
+            color: #fff; letter-spacing: -2px;
+        }
+
+        .desc-label {
+            font-size: 0.9rem; font-weight: 800; color: #ffffff;
+            text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px;
+        }
+
+        .desc-box { 
+            background: #222; /* Colore diverso per il layout descrizione */
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid #222; /* Bordo sottile */
+            min-height: 150px;
+        }
+
+        .desc { 
+            color: #eee; line-height: 1.6; font-size: 1.2rem; margin: 0; 
+            font-style: italic;
+        }
+        
+        .btn-back { background: white; color: black; border: none; padding: 15px 30px; font-weight: 900; cursor: pointer; display: none; margin-bottom: 30px; border-radius: 50px; }
 
         @media (max-width: 900px) {
             header { padding: 40px 20px; }
@@ -192,22 +212,15 @@
 </head>
 <body>
 
-    <div class="modal-overlay" id="modalCarta" onclick="chiudiAnteprima(event)">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <div class="modal-left">
-                <div class="flip-card" id="cardFlipper" onclick="toggleFlip()">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <img id="modalImg" src="" alt="Fronte">
-                        </div>
-                        <div class="flip-card-back">
-                            <img id="modalRetroImg" src="" alt="Retro">
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="modal-overlay" id="modalCarta" onclick="chiudiAnteprima(event)">
+            <div class="modal-content" onclick="event.stopPropagation()">
+                
+                <div class="modal-left">
+            <img id="modalImg" src="" alt="Carta">
+        </div>
             <div class="modal-right">
                 <h2 id="modalNome">00/00</h2>
+                
                 <div class="desc-label">Descrizione</div>
                 <div class="desc-box">
                     <p class="desc" id="modalDesc"></p>
@@ -280,67 +293,61 @@
     <script>
         const NOME_SITO = "DeD<br>Creative Studio";
 
-        let currentSetOpen = null;
-        let currentCardIndex = 0;
-
         const database = {
             "set-base": {
                 titolo: "SET - 01",
-                dorso: "DORSO_CARTA.png",
                 carte: [
-                    { nome: "01/40", titoloCard: "Dadà", rarita: "C", immagine: "CarD - Collection/Card Collection/4.png", desc: "<i>“Mi piacciono le topoline...”</i>" },
-                    { nome: "02/40", titoloCard: "Moba", rarita: "C", immagine: "CarD - Collection/Card Collection/5.png", desc: "<i>“Terrorista a natale!”</i>" },
-                    { nome: "03/40", titoloCard: "Gioele", rarita: "R", immagine: "CarD - Collection/Card Collection/6.png", desc: "<i>“Se Barbie avesse incontrato Gioele, Ken sarebbe rimasto nel cassetto.”</i>" },
-                    { nome: "04/40", titoloCard: "Claudio", rarita: "C", immagine: "CarD - Collection/Card Collection/7.png", desc: "<i>“Io...solo alta borghesia”</i>" },
-                    { nome: "05/40", titoloCard: "Edoardo", rarita: "C", immagine: "CarD - Collection/Card Collection/8.png", desc: "<i>“Il nuovo Frank Sinatra”</i>" },
-                    { nome: "06/40", titoloCard: "Giuseppe", rarita: "NC", immagine: "CarD - Collection/Card Collection/9.png", desc: "<i>“Ho fame! Tanta fame!”</i>" },
-                    { nome: "07/40", titoloCard: "Andres", rarita: "C", immagine: "CarD - Collection/Card Collection/10.png", desc: "<i>“Il miglior Producer che io conosca”</i>" },
-                    { nome: "08/40", titoloCard: "Yasser", rarita: "NC", immagine: "CarD - Collection/Card Collection/11.png", desc: "<i>“Voglio diventare il Lord delle aquile!”</i>" },
-                    { nome: "09/40", titoloCard: "Jean", rarita: "NC", immagine: "CarD - Collection/Card Collection/12.png", desc: "<i>“Sono sud americano...è ovvio che bevo tanto”</i>" },
-                    { nome: "10/40", titoloCard: "Mosè", rarita: "C", immagine: "CarD - Collection/Card Collection/13.png", desc: "<i>“Colui che non conosce i limiti”</i>" },
-                    { nome: "11/40", titoloCard: "Sleep Mode ON", rarita: "C", immagine: "CarD - Collection/Card Collection/14.png", desc: "<i>“ATTENZIONE: possono attirare moscerini.”</i>" },
-                    { nome: "12/40", titoloCard: "Neon", rarita: "C", immagine: "CarD - Collection/Card Collection/15.png", desc: "<i>“Sotto le luci del Mc, aspettando il Big Mac”</i>" },
-                    { nome: "13/40", titoloCard: "Banzai!!", rarita: "NC", immagine: "CarD - Collection/Card Collection/16.png", desc: "<i>“ATTACO IN SALTOO!! AAARGHH!!”</i>" },
-                    { nome: "14/40", titoloCard: "Teatrale", rarita: "C", immagine: "CarD - Collection/Card Collection/17.png", desc: "<i>“Quando sei stanco e ti sdrai sulla prima cosa che vedi... ”</i>" },
-                    { nome: "15/40", titoloCard: "Chandres", rarita: "R", immagine: "CarD - Collection/Card Collection/18.png", desc: "<i>“Andres versione chad?...ECCO CHANDRES!!”</i>" },
-                    { nome: "16/40", titoloCard: "Il Bacio", rarita: "NC", immagine: "CarD - Collection/Card Collection/19.png", desc: "<i>“Povero Claudio...ormai si immagina di baciare la sua amata.”</i>" },
-                    { nome: "17/40", titoloCard: "Mobanza", rarita: "NC", immagine: "CarD - Collection/Card Collection/20.png", desc: "<i>“Coca Zero, Mercedes-Benz e tanto caldo”</i>" },
-                    { nome: "18/40", titoloCard: "Pokémania", rarita: "NC", immagine: "CarD - Collection/Card Collection/21.png", desc: "<i>“Dai andiamo a comprare qualche pacchetto Pokèmon...100€ a testa.”</i>" },
-                    { nome: "19/40", titoloCard: "Schiavi", rarita: "C", immagine: "CarD - Collection/Card Collection/22.png", desc: "<i>“SCHIAVI...e un po' gay?”</i>" },
-                    { nome: "20/40", titoloCard: "Freaky", rarita: "R", immagine: "CarD - Collection/Card Collection/23.png", desc: "<i>“Freaky MODE....actived”</i>" },
-                    { nome: "21/40", titoloCard: "La Gang", rarita: "C", immagine: "CarD - Collection/Card Collection/24.png", desc: "<i>“Quando la gang è insieme...solo follie”</i>" },
-                    { nome: "22/40", titoloCard: "Brothers", rarita: "C", immagine: "CarD - Collection/Card Collection/25.png", desc: "<i>“Un fratello per scelta”</i>" },
-                    { nome: "23/40", titoloCard: "Sticker", rarita: "C", immagine: "CarD - Collection/Card Collection/26.png", desc: "<i>“Simile al suo sticker preferito...”</i>" },
-                    { nome: "24/40", titoloCard: "Kiss Me", rarita: "NC", immagine: "CarD - Collection/Card Collection/27.png", desc: "<i>“Kiss me....please!”</i>" },
-                    { nome: "25/40", titoloCard: "Ninnna Nanna", rarita: "C", immagine: "CarD - Collection/Card Collection/28.png", desc: "<i>“Eh...quante dormite cosi..”</i>" },
-                    { nome: "26/40", titoloCard: "Grigliata", rarita: "C", immagine: "CarD - Collection/Card Collection/29.png", desc: "<i>“Montagna e carne...alla fine ci siamo mangiati anche una pizza”</i>" },
-                    { nome: "27/40", titoloCard: "Bachata?", rarita: "SR", immagine: "CarD - Collection/Card Collection/30.png", desc: "<i>Bachata? No bro… questa è Gay-chata!</i>" },
-                    { nome: "28/40", titoloCard: "Attaccami!", rarita: "R", immagine: "CarD - Collection/Card Collection/31.png", desc: "<i>“Una tranquilla partita di risiko...”</i>" },
-                    { nome: "29/40", titoloCard: "Abbraccio", rarita: "C", immagine: "CarD - Collection/Card Collection/32.png", desc: "<i>“Claudio...ho bisogno di un'abbraccio”</i>" },
-                    { nome: "30/40", titoloCard: "Trauma.EXE", rarita: "R", immagine: "CarD - Collection/Card Collection/33.png", desc: "<i>“Thousand Yard Stare”</i>" },
-                    { nome: "31/40", titoloCard: "Fascino PGT", rarita: "C", immagine: "CarD - Collection/Card Collection/34.png", desc: "<i>“Hmmm....si, sei propio bello!”</i>" },
-                    { nome: "32/40", titoloCard: "Il Tuffo", rarita: "R", immagine: "CarD - Collection/Card Collection/35.png", desc: "<i>“Il grande tuffo nel naviglio di Beppe”</i>" },
-                    { nome: "33/40", titoloCard: "Baffo Man", rarita: "C", immagine: "CarD - Collection/Card Collection/36.png", desc: "<i>“Che ricordi...il baffo, stavo proprio bene”</i>" },
-                    { nome: "34/40", titoloCard: "To Record", rarita: "NC", immagine: "CarD - Collection/Card Collection/37.png", desc: "<i>“STRABRASILIANE e TI MANCO...due hit fortissime!”</i>" },
-                    { nome: "35/40", titoloCard: "Il Campione", rarita: "SR", immagine: "CarD - Collection/Card Collection/38.png", desc: "<i>“Il Campione di Clash Royal del server DS: Friends”</i>" },
-                    { nome: "36/40", titoloCard: "Le Coccole", rarita: "C", immagine: "CarD - Collection/Card Collection/39.png", desc: "<i>“VIENI QUII...PASTICCINOOO!!”</i>" },
-                    { nome: "37/40", titoloCard: "Beppe", rarita: "SR", immagine: "CarD - Collection/Card Collection/40.png", desc: "<i>“Beppe in 60's style”</i>" },
-                    { nome: "38/40", titoloCard: "Re della Patata", rarita: "SR", immagine: "CarD - Collection/Card Collection/41.png", desc: "<i>“Il sacro Re della patata seduto nel suo trono...aspettando la sua patatina”</i>" },
-                    { nome: "39/40", titoloCard: "Alle Giostre", rarita: "R", immagine: "CarD - Collection/Card Collection/42.png", desc: "<i>“Tanto divertimento e tante vincite, WUUPIII!!”</i>" },
-                    { nome: "40/40", titoloCard: "Ricordi", rarita: "SR", immagine: "CarD - Collection/Card Collection/43.png", desc: "<i>“Tanti ricordi...di momenti indimenticabili, di momenti folli!”</i>" }
+                    { nome: "01/40", rarita: "C", immagine: "CarD - Collection/Card Collection/4.png", desc: "<i>“Mi piacciono le topoline...”</i>" },
+                    { nome: "02/40", rarita: "C", immagine: "CarD - Collection/Card Collection/5.png", desc: "<i>“Terrorista a natale!”</i>" },
+                    { nome: "03/40", rarita: "R", immagine: "CarD - Collection/Card Collection/6.png", desc: "<i>“Se Barbie avesse incontrato Gioele, Ken sarebbe rimasto nel cassetto.”</i>" },
+                    { nome: "04/40", rarita: "C", immagine: "CarD - Collection/Card Collection/7.png", desc: "<i>“Io...solo alta borghesia”</i>" },
+                    { nome: "05/40", rarita: "C", immagine: "CarD - Collection/Card Collection/8.png", desc: "<i>“Il nuovo Frank Sinatra”</i>" },
+                    { nome: "06/40", rarita: "NC", immagine: "CarD - Collection/Card Collection/9.png", desc: "<i>“Ho fame! Tanta fame!”</i>" },
+                    { nome: "07/40", rarita: "C", immagine: "CarD - Collection/Card Collection/10.png", desc: "<i>“Il miglior Producer che io conosca”</i>" },
+                    { nome: "08/40", rarita: "NC", immagine: "CarD - Collection/Card Collection/11.png", desc: "<i>“Voglio diventare il Lord delle aquile!”</i>" },
+                    { nome: "09/40", rarita: "NC", immagine: "CarD - Collection/Card Collection/12.png", desc: "<i>“Sono sud americano...è ovvio che bevo tanto”</i>" },
+                    { nome: "10/40", rarita: "C", immagine: "CarD - Collection/Card Collection/13.png", desc: "<i>“Colui che non conosce i limiti”</i>" },
+                    { nome: "11/40", rarita: "C", immagine: "CarD - Collection/Card Collection/14.png", desc: "<i>“ATTENZIONE: possono attirare moscerini.”</i>" },
+                    { nome: "12/40", rarita: "C", immagine: "CarD - Collection/Card Collection/15.png", desc: "<i>“Sotto le luci del Mc, aspettando il Big Mac”</i>" },
+                    { nome: "13/40", rarita: "NC", immagine: "CarD - Collection/Card Collection/16.png", desc: "<i>“ATTACO IN SALTOO!! AAARGHH!!”</i>" },
+                    { nome: "14/40", rarita: "C", immagine: "CarD - Collection/Card Collection/17.png", desc: "<i>“Quando sei stanco e ti sdrai sulla prima cosa che vedi... ”</i>" },
+                    { nome: "15/40", rarita: "R", immagine: "CarD - Collection/Card Collection/18.png", desc: "<i>“Andres versione chad?...ECCO CHANDRES!!”</i>" },
+                    { nome: "16/40", rarita: "NC", immagine: "CarD - Collection/Card Collection/19.png", desc: "<i>“Povero Claudio...ormai si immagina di baciare la sua amata.”</i>" },
+                    { nome: "17/40", rarita: "NC", immagine: "CarD - Collection/Card Collection/20.png", desc: "<i>“Coca Zero, Mercedes-Benz e tanto caldo”</i>" },
+                    { nome: "18/40", rarita: "NC", immagine: "CarD - Collection/Card Collection/21.png", desc: "<i>“Dai andiamo a comprare qualche pacchetto Pokèmon...100€ a testa.”</i>" },
+                    { nome: "19/40", rarita: "C", immagine: "CarD - Collection/Card Collection/22.png", desc: "<i>“SCHIAVI...e un po' gay?”</i>" },
+                    { nome: "20/40", rarita: "R", immagine: "CarD - Collection/Card Collection/23.png", desc: "<i>“Freaky MODE....actived”</i>" },
+                    { nome: "21/40", rarita: "C", immagine: "CarD - Collection/Card Collection/24.png", desc: "<i>“Quando la gang è insieme...solo follie”</i>" },
+                    { nome: "22/40", rarita: "C", immagine: "CarD - Collection/Card Collection/25.png", desc: "<i>“Un fratello per scelta”</i>" },
+                    { nome: "23/40", rarita: "C", immagine: "CarD - Collection/Card Collection/26.png", desc: "<i>“Simile al suo sticker preferito...”</i>" },
+                    { nome: "24/40", rarita: "NC", immagine: "CarD - Collection/Card Collection/27.png", desc: "<i>“Kiss me....please!”</i>" },
+                    { nome: "25/40", rarita: "C", immagine: "CarD - Collection/Card Collection/28.png", desc: "<i>“Eh...quante dormite cosi..”</i>" },
+                    { nome: "26/40", rarita: "C", immagine: "CarD - Collection/Card Collection/29.png", desc: "<i>“Montagna e carne...alla fine ci siamo mangiati anche una pizza”</i>" },
+                    { nome: "27/40", rarita: "SR", immagine: "CarD - Collection/Card Collection/30.png", desc: "<i>Bachata? No bro… questa è Gay-chata!</i>" },
+                    { nome: "28/40", rarita: "R", immagine: "CarD - Collection/Card Collection/31.png", desc: "<i>“Una tranquilla partita di risiko...”</i>" },
+                    { nome: "29/40", rarita: "C", immagine: "CarD - Collection/Card Collection/32.png", desc: "<i>“Claudio...ho bisogno di un'abbraccio”</i>" },
+                    { nome: "30/40", rarita: "R", immagine: "CarD - Collection/Card Collection/33.png", desc: "<i>“Thousand Yard Stare”</i>" },
+                    { nome: "31/40", rarita: "C", immagine: "CarD - Collection/Card Collection/34.png", desc: "<i>“Hmmm....si, sei propio bello!”</i>" },
+                    { nome: "32/40", rarita: "R", immagine: "CarD - Collection/Card Collection/35.png", desc: "<i>“Il grande tuffo nel naviglio di Beppe”</i>" },
+                    { nome: "33/40", rarita: "C", immagine: "CarD - Collection/Card Collection/36.png", desc: "<i>“Che ricordi...il baffo, stavo proprio bene”</i>" },
+                    { nome: "34/40", rarita: "NC", immagine: "CarD - Collection/Card Collection/37.png", desc: "<i>“STRABRASILIANE e TI MANCO...due hit fortissime!”</i>" },
+                    { nome: "35/40", rarita: "SR", immagine: "CarD - Collection/Card Collection/38.png", desc: "<i>“Il Campione di Clash Royal del server DS: Friends”</i>" },
+                    { nome: "36/40", rarita: "C", immagine: "CarD - Collection/Card Collection/39.png", desc: "<i>“VIENI QUII...PASTICCINOOO!!”</i>" },
+                    { nome: "37/40", rarita: "SR", immagine: "CarD - Collection/Card Collection/40.png", desc: "<i>“Beppe in 60's style”</i>" },
+                    { nome: "38/40", rarita: "SR", immagine: "CarD - Collection/Card Collection/41.png", desc: "<i>“Il sacro Re della patata seduto nel suo trono...aspettando la sua patatina”</i>" },
+                    { nome: "39/40", rarita: "R", immagine: "CarD - Collection/Card Collection/42.png", desc: "<i>“Tanto divertimento e tante vincite, WUUPIII!!”</i>" },
+                    { nome: "40/40", rarita: "SR", immagine: "CarD - Collection/Card Collection/43.png", desc: "<i>“Tanti ricordi...di momenti indimenticabili, di momenti folli!”</i>" }
                 ]
             },
             "set-promo": {
                 titolo: "PROMO - A",
-                dorso: "DORSO_CARTA.png",
                 carte: [
                     { nome: "01/02", rarita: "SR", immagine: "Card - Collection Promo/1.png", desc: "<i>Carta promozionale speciale.</i>" },
-                    { nome: "02/02", rarita: "SR", immagine: "Card - Collection Promo/2.png", desc: "<i>“Le leggende narrano che una volta alzò una macchina per salvare il suo pasticcino al pistacchio.”</i>"}
+                    { nome: "02/02", rarita: "SR", immagine: "Card - Collection Promo/2.png", desc: "<i>Carta PROMO</i>"}
                 ]
             },
             "Extra-Set": {
                 titolo: "SET - EX01",
-                dorso: "DORSO_CARTA2.png",
                 carte: [
                     { nome: "01/19", rarita: "C", immagine: "Card Game Collection SET°01/1.png" },
                     { nome: "02/19", rarita: "C", immagine: "Card Game Collection SET°01/2.png" },
@@ -430,55 +437,32 @@
             window.scrollTo({top: 0, behavior: 'smooth'});
         }
 
-        function toggleFlip() {
-            document.getElementById('cardFlipper').classList.toggle('is-flipped');
-        }
-
         function apriAnteprima(setKey, cardIndex) {
-            currentSetOpen = setKey;
-            currentCardIndex = cardIndex;
-
-            const set = database[setKey];
-            const carta = set.carte[cardIndex];
-
-            document.getElementById('cardFlipper').classList.remove('is-flipped');
+            const carta = database[setKey].carte[cardIndex];
             document.getElementById('modalImg').src = carta.immagine;
-            document.getElementById('modalRetroImg').src = set.dorso || "https://via.placeholder.com/450x600?text=Dorso+Assente";
-            document.getElementById('modalNome').innerText = carta.titoloCard;
+            document.getElementById('modalNome').innerText = carta.nome;
             document.getElementById('modalDesc').innerHTML = carta.desc || "<i>Nessuna descrizione disponibile per questa carta.</i>";
             document.getElementById('modalCarta').style.display = 'flex';
             document.body.style.overflow = 'hidden';
         }
 
-        function chiudiAnteprima(event) {
-            if (event && event.stopPropagation) event.stopPropagation();
+       function chiudiAnteprima(event) {
+            if (event && event.stopPropagation) {
+            event.stopPropagation();
+        }
+    
             document.getElementById('modalCarta').style.display = 'none';
             document.body.style.overflow = 'auto';
         }
 
-        document.addEventListener('keydown', (e) => { if (e.key === "Escape") chiudiAnteprima(); });
-
-        document.addEventListener('keydown', (e) => {
-   
-            if (document.getElementById('modalCarta').style.display !== 'flex') return;
-
-            if (e.key === "Escape") {
-                chiudiAnteprima();
-        } 
-        else if (e.key === "ArrowRight") {
-        
-            if (currentCardIndex < database[currentSetOpen].carte.length - 1) {
-            apriAnteprima(currentSetOpen, currentCardIndex + 1);
-        }
-    } 
-        else if (e.key === "ArrowLeft") {
-        
-        if (currentCardIndex > 0) {
-            apriAnteprima(currentSetOpen, currentCardIndex - 1);
-        }
-    }
-});
         renderSets();
+
+            document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape") {
+            console.log("Tasto ESC premuto"); 
+            chiudiAnteprima();
+        }
+            });
     </script>
 </body>
 </html>
