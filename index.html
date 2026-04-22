@@ -146,7 +146,75 @@
         .video-info { padding: 20px; background: linear-gradient(transparent, #000); position: absolute; bottom: 0; width: 100%; box-sizing: border-box; }
         .video-info h3 { margin: 0; font-size: 1.2rem; font-weight: 900; }
 
-        /* --- TAŠTO TORNA INDIETRO (RIPRISTINATO) --- */
+        /* --- GRID GRAFICHE PC --- */
+        .graphics-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); /* Colonne larghe per il PC */
+        gap: 25px;
+        }
+
+        .graphic-item {
+        background: #121212;
+        border-radius: 20px;
+        overflow: hidden;
+        border: 1px solid #222;
+        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .graphic-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .graphic-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.6s ease;
+        }
+
+        /* Effetto Hover PC */
+        .graphic-item:hover {
+            border-color: var(--color-sr); /* Colore viola al passaggio */
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .graphic-item:hover img {
+            transform: scale(1.1); /* Zoom dell'immagine */
+        }
+
+        .graphic-info {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            padding: 30px;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .graphic-item:hover .graphic-info {
+            opacity: 1;
+        }
+
+        .graphic-info h3 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .graphic-info p {
+            margin: 5px 0 0;
+            color: var(--color-sr);
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        /* --- TAŠTO TORNA INDIETRO --- */
         .btn-back { 
             background: white; color: black; border: none; padding: 15px 30px; 
             font-weight: 900; cursor: pointer; display: none; margin-bottom: 30px; 
@@ -236,6 +304,7 @@
     <nav class="main-nav">
         <button class="nav-btn active" onclick="switchSection('cards', this)">Carte</button>
         <button class="nav-btn" onclick="switchSection('videos', this)">Video</button>
+        <button class="nav-btn" onclick="switchSection('graphics', this)">Grafiche</button>
         <button class="nav-btn" disabled style="opacity: 0.3; cursor: default;">Coming Soon</button>
     </nav>
 
@@ -273,7 +342,61 @@
                 </div>
             </div>
         </div>
+        
+        <div id="graphics-section" class="content-section">
+            <div class="graphics-grid">
+                <div class="graphic-item">
+                <div class="graphic-wrapper">
+                    <img src="GraFik/TEzY.png" alt="Grafica 1">
+                        <div class="graphic-info">
+                        <h3>Nome Progetto</h3>
+                        <p>Branding / Logo Design</p>
+                </div>
+            </div>
+        </div>
+                 
+        <div class="graphic-item">
+            <div class="graphic-wrapper">
+                    <img src="GraFik/LIGHT.png" alt="Titolo Progetto">
+                        <div class="graphic-info">
+                        <h3>TITOLO DEL PROGETTO</h3>
+                        <p>CATEGORIA (es. Branding / Logo)</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="graphic-item">
+            <div class="graphic-wrapper">
+                    <img src="GraFik/FAITH.png" alt="Titolo Progetto">
+                        <div class="graphic-info">
+                        <h3>TITOLO DEL PROGETTO</h3>
+                        <p>CATEGORIA (es. Branding / Logo)</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="graphic-item">
+            <div class="graphic-wrapper">
+                    <img src="GraFik/ObServE.jpg" alt="Titolo Progetto">
+                        <div class="graphic-info">
+                        <h3>TITOLO DEL PROGETTO</h3>
+                        <p>CATEGORIA (es. Branding / Logo)</p>
+                </div>
+            </div>
+        </div>             
+
+        <div class="graphic-item">
+            <div class="graphic-wrapper">
+                    <img src="LOGO - DeD 2.jpg" alt="Titolo Progetto">
+                        <div class="graphic-info">
+                        <h3>TITOLO DEL PROGETTO</h3>
+                        <p>CATEGORIA (es. Branding / Logo)</p>
+                </div>
+            </div>
+        </div>     
+
     </div>
+</div>
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
