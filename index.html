@@ -119,6 +119,7 @@
             border: 1px solid #333; border-radius: 20px; padding: 80px 30px;
             text-align: center; cursor: pointer; transition: 0.4s;
             position: relative; overflow: hidden;
+            flex: 1 1 300px !important;
         }
         
         .set-card:hover { transform: translateY(-10px); border-color: var(--color-sr); box-shadow: 0 20px 40px rgba(166, 50, 250, 0.2); }
@@ -134,6 +135,31 @@
         .card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; }
         .card-name { font-weight: 700; font-size: 0.9rem; color: #eee; }
         .rarity-badge { font-weight: 900; font-size: 0.75rem; padding: 4px 12px; border-radius: 20px; border: 1px solid currentColor; background: rgba(0,0,0,0.3); }
+
+    /* Layout per la sezione set */
+        .sets-wrapper {display: flex !important; flex-direction: row !important; align-items: flex-start !important; gap: 50px !important; width: 100% !important; margin-top: 20px; }
+
+    /* Colonna sinistra (Carta che gira) */
+        .featured-side { flex: 0 0 350px !important; perspective: 1000px; position: sticky; top: 120px; }
+
+    /* Colonna destra (I tuoi blocchi set) */
+        .sets-side { flex: 1 !important; display: flex !important; flex-wrap: wrap !important; gap: 30px !important; /* Più spazio tra un blocco e l'altro */}
+
+    /* Animazione carta rotante */
+        .rotating-card { width: 350px; height: 490px; position: relative; transform-style: preserve-3d; animation: rotateAuto 10s infinite linear; }
+
+        @keyframes rotateAuto { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
+
+        .card-face-rot { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 20px; overflow: hidden; border: 1px solid #333; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+
+        .card-back-rot { transform: rotateY(180deg); }
+        .card-face-rot img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* Responsive per telefoni */
+        @media (max-width: 900px) {
+            .sets-wrapper { flex-direction: column !important; align-items: center !important; }
+            .featured-side { position: static !important; margin-bottom: 30px; }
+        }
 
         /* --- VIDEO --- */
         .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
@@ -347,20 +373,20 @@
             <div class="graphics-grid">
                 <div class="graphic-item">
                 <div class="graphic-wrapper">
-                    <img src="GraFik/TEzY.png" alt="Grafica 1">
+                    <img src="GraFik/LIGHT.png" alt="Grafica 1">
                         <div class="graphic-info">
-                        <h3>Nome Progetto</h3>
-                        <p>Branding / Logo Design</p>
+                        <h3>LIGHT</h3>
+                        <p>Poster</p>
                 </div>
             </div>
         </div>
                  
         <div class="graphic-item">
             <div class="graphic-wrapper">
-                    <img src="GraFik/LIGHT.png" alt="Titolo Progetto">
+                    <img src="GraFik/TEzY.png" alt="Titolo Progetto">
                         <div class="graphic-info">
-                        <h3>TITOLO DEL PROGETTO</h3>
-                        <p>CATEGORIA (es. Branding / Logo)</p>
+                        <h3>TEZY VEEREN</h3>
+                        <p>Poster</p>
                 </div>
             </div>
         </div>
@@ -369,8 +395,8 @@
             <div class="graphic-wrapper">
                     <img src="GraFik/FAITH.png" alt="Titolo Progetto">
                         <div class="graphic-info">
-                        <h3>TITOLO DEL PROGETTO</h3>
-                        <p>CATEGORIA (es. Branding / Logo)</p>
+                        <h3>FAITH</h3>
+                        <p>Poster</p>
                 </div>
             </div>
         </div>
@@ -379,8 +405,8 @@
             <div class="graphic-wrapper">
                     <img src="GraFik/ObServE.jpg" alt="Titolo Progetto">
                         <div class="graphic-info">
-                        <h3>TITOLO DEL PROGETTO</h3>
-                        <p>CATEGORIA (es. Branding / Logo)</p>
+                        <h3>OBSERVE</h3>
+                        <p>Poster</p>
                 </div>
             </div>
         </div>             
@@ -389,8 +415,8 @@
             <div class="graphic-wrapper">
                     <img src="LOGO - DeD 2.jpg" alt="Titolo Progetto">
                         <div class="graphic-info">
-                        <h3>TITOLO DEL PROGETTO</h3>
-                        <p>CATEGORIA (es. Branding / Logo)</p>
+                        <h3>DeD</h3>
+                        <p>Branding / Logo Design</p>
                 </div>
             </div>
         </div>     
@@ -519,39 +545,66 @@
             window.scrollTo({top: 0, behavior: 'smooth'});
         }
 
-        function renderSets() {
-            backBtn.style.display = 'none';
-            sliderEl.style.display = 'block';
-            headerTitle.innerHTML = NOME_SITO;
-            grid.innerHTML = Object.keys(database).map(key => `
-                <div class="set-card" onclick="renderCards('${key}')">
-                    <h2 style="text-transform: uppercase;">${database[key].titolo}</h2>
-                    <p style="opacity:0.6; font-weight:700;">${database[key].carte.length} CARTE DISPONIBILI</p>
-                </div>
-            `).join('');
-        }
+function renderSets() {
+    backBtn.style.display = 'none';
+    sliderEl.style.display = 'block';
+    headerTitle.innerHTML = NOME_SITO;
+    
+    // Reset del contenitore principale
+    grid.style.display = 'block'; 
 
-        function renderCards(setKey) {
-            const set = database[setKey];
-            backBtn.style.display = 'inline-block';
-            sliderEl.style.display = 'none';
-            headerTitle.innerText = set.titolo;
+    grid.innerHTML = `
+        <div class="sets-wrapper">
             
-            grid.innerHTML = set.carte.map((c, index) => {
-                const color = getRarityColor(c.rarita);
-                return `
-                <div class="card-item" onclick="apriAnteprima('${setKey}', ${index})">
-                    <img src="${c.immagine}" style="width:100%; border-radius:12px;" onerror="this.src='https://via.placeholder.com/250x350?text=Image+Missing'">
-                    <div class="card-footer">
-                        <span class="card-name">${c.nome}</span>
-                        <div class="rarity-badge" style="color:${color}; border-color:${color};">
-                            <span>${c.rarita}</span>
-                        </div>
+            <div class="featured-side">
+                <div class="rotating-card">
+                    <div class="card-face-rot">
+                        <img src="CarD - Collection/Card Collection/43.png" onerror="this.src='https://via.placeholder.com/300x420?text=Card+Front'">
+                    </div>
+                    <div class="card-face-rot card-back-rot">
+                        <img src="DORSO_CARTA.png" onerror="this.src='https://via.placeholder.com/300x420?text=Card+Back'">
                     </div>
                 </div>
-            `}).join('');
-            window.scrollTo({top: 0, behavior: 'smooth'});
-        }
+            </div>
+
+            <div class="sets-side">
+                ${Object.keys(database).map(key => `
+                    <div class="set-card" onclick="renderCards('${key}')">
+                        <h2 style="text-transform: uppercase; margin-bottom: 10px;">${database[key].titolo}</h2>
+                        <p style="opacity:0.6; font-weight:700;">${database[key].carte.length} CARTE DISPONIBILI</p>
+                    </div>
+                `).join('')}
+            </div>
+
+        </div>
+    `;
+}
+
+function renderCards(setKey) {
+    const set = database[setKey];
+    backBtn.style.display = 'inline-block';
+    sliderEl.style.display = 'none';
+    headerTitle.innerText = set.titolo;
+    
+    // Torna alla griglia normale per le miniature delle carte
+    grid.style.display = 'grid'; 
+    grid.className = "album-grid"; 
+
+    grid.innerHTML = set.carte.map((c, index) => {
+        const color = getRarityColor(c.rarita);
+        return `
+        <div class="card-item" onclick="apriAnteprima('${setKey}', ${index})">
+            <img src="${c.immagine}" style="width:100%; border-radius:12px;" onerror="this.src='https://via.placeholder.com/250x350?text=Image+Missing'">
+            <div class="card-footer">
+                <span class="card-name">${c.nome}</span>
+                <div class="rarity-badge" style="color:${color}; border-color:${color};">
+                    <span>${c.rarita}</span>
+                </div>
+            </div>
+        </div>
+    `}).join('');
+    window.scrollTo({top: 0, behavior: 'smooth'});
+}
 
         function toggleFlip() {
             document.getElementById('cardFlipper').classList.toggle('is-flipped');
