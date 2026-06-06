@@ -198,35 +198,88 @@
         .video-info { padding: 20px; background: linear-gradient(transparent, #000); position: absolute; bottom: 0; width: 100%; box-sizing: border-box; pointer-events: none; }
         .video-info h3 { margin: 0; font-size: 1.2rem; font-weight: 900; color: #ffffff; }
 
-        /* --- GRID GRAFICHE --- */
-        .graphics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); 
+/* --- SEZIONE GRAFICHE (STRUTTURA A 3 COLONNE FLUIDA E COMPATTA) --- */
+        .graphics-custom-layout {
+            display: flex;
             gap: 25px;
+            width: 100%;
+            align-items: flex-start;
+        }
+
+        /* Creiamo le 3 colonne verticali del disegno */
+        .gfx-column {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        
+        /* La colonna centrale ha una larghezza leggermente maggiore (1.1) come da schema */
+        .gfx-column.center-col {
+            flex: 1.1;
         }
 
         .graphic-item {
-            background: #121212;
+            background: #0b0705;
             border-radius: 20px;
             overflow: hidden;
             border: 1px solid #222;
             transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             position: relative;
+            width: 100%;
         }
 
         .graphic-wrapper {
             position: relative;
             width: 100%;
-            height: 100%;
-            overflow: hidden;
+            height: auto;
+            display: block;
         }
 
         .graphic-item img {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
+            height: auto; /* Nessun taglio, mantiene le proporzioni native */
             display: block;
+            object-fit: contain;
             transition: transform 0.6s ease;
+        }
+
+        /* Linee Nere Orizzontali Decorative del Disegno */
+        .deco-line {
+            width: 100%;
+            height: 4px;
+            background-color: #000000;
+            border-radius: 2px;
+            margin: 5px 0;
+        }
+
+        /* Linea di separazione principale nera prima del 3D */
+        .section-divider-black {
+            width: 100%;
+            height: 6px;
+            background-color: #000000;
+            margin: 60px 0 40px 0;
+            border-radius: 3px;
+        }
+
+        /* Layout Sezione 3D Inferiore */
+        .section-3d-wrapper {
+            width: 100%;
+        }
+
+        .title-3d {
+            font-size: 2.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            color: #ffffff;
+            margin-bottom: 25px;
+            letter-spacing: -1px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .item-3d-wide {
+            width: 100%;
+            height: auto;
         }
 
         .graphic-item:hover {
@@ -236,7 +289,7 @@
         }
 
         .graphic-item:hover img {
-            transform: scale(1.1); 
+            transform: scale(1.03); 
         }
 
         .graphic-info {
@@ -246,6 +299,7 @@
             background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
             opacity: 0;
             transition: opacity 0.4s ease;
+            z-index: 5;
         }
 
         .graphic-item:hover .graphic-info {
@@ -497,7 +551,9 @@
             .modal-right { padding: 40px 30px; text-align: center; }
             .modal-right h2 { font-size: 2rem; margin-bottom: 20px; }
             .footer-content { flex-direction: column; text-align: center; }
-            .graphics-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+            .graphics-custom-layout { display: flex; flex-direction: column; gap: 20px; }
+            .deco-line { display: none; }
+            .item-3d-wide { height: 260px; }
         }
     </style>
 </head>
@@ -536,7 +592,7 @@
                 <div class="dot dot2"></div>
             </div>
             <div class="center-logo">
-                <img src="LOGO - DeD 2.svg" alt="Logo Grande" style="width:100%;">
+                <img src="LOGO 2.3.webp" alt="Logo Grande" style="width:100%;">
             </div>
         </div>
     </div>
@@ -545,7 +601,7 @@
         <div class="brand-container">
             <div class="logo-box">
                 <img src="Panda Chopper.png" alt="Panda" class="panda-chopper">
-                <img src="LOGO - DeD 2.svg" alt="Logo" class="logo-personalizzato">
+                <img src="LOGO 2.3.webp" alt="Logo" class="logo-personalizzato">
             </div>
             <h1 id="mainTitle">DeD</h1>
         </div>
@@ -583,104 +639,167 @@
             <div class="album-grid" id="mainGrid"></div>
         </div>
 
-        <div id="videos-section" class="content-section">
-            <div class="video-grid">
-                <div class="video-item">
-                    <video loop muted playsinline preload="metadata" onmouseover="this.play()" onmouseout="this.pause(); this.currentTime = 0;">
-                        <source src="ViDeO/HxH.mp4" type="video/mp4">
-                    </video>
-                    <div class="video-info"><h3>Hunter x Hunter</h3></div>
+<div id="videos-section" class="content-section">
+            
+            <div style="background-color: #000000; padding: 30px; border-radius: 16px; border: 3px solid #ffffff; box-shadow: 0 15px 40px rgba(0,0,0,0.6); margin-bottom: 40px;">
+                
+                <div class="video-grid">
+                    <div class="video-item">
+                        <video loop muted playsinline preload="metadata" onmouseover="this.play()" onmouseout="this.pause(); this.currentTime = 0;">
+                            <source src="ViDeO/HxH.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-info">
+                            <h3>Hunter x Hunter</h3>
+                        </div>
+                    </div>
+                    <div class="video-item">
+                        <video loop muted playsinline preload="metadata" onmouseover="this.play()" onmouseout="this.pause(); this.currentTime = 0;">
+                            <source src="ViDeO/Arcane.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-info">
+                            <h3>Arcane</h3>
+                        </div>
+                    </div>
+                    <div class="video-item">
+                        <video loop muted playsinline preload="metadata" onmouseover="this.play()" onmouseout="this.pause(); this.currentTime = 0;">
+                            <source src="ViDeO/InV.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-info">
+                            <h3>Invincible</h3>
+                        </div>
+                    </div>
+                    <div class="video-item">
+                        <video loop muted playsinline preload="metadata" onmouseover="this.play()" onmouseout="this.pause(); this.currentTime = 0;">
+                            <source src="ViDeO/Ben10.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-info">
+                            <h3>Ben 10</h3>
+                        </div>
+                    </div>
                 </div>
-                <div class="video-item">
-                    <video loop muted playsinline preload="metadata" onmouseover="this.play()" onmouseout="this.pause(); this.currentTime = 0;">
-                        <source src="ViDeO/Arcane.mp4" type="video/mp4">
+
+            </div>
+
+            <div style="width: 100%; display: flex; justify-content: flex-start;">
+                <div class="video-item" style="max-width: 800px; width: 100%; margin: 0;">
+                    <video controls loop muted playsinline style="width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; border-radius: 12px;">
+                        <source src="ViDeO/NUOVO_VIDEO_CLASSICO.mp4" type="video/mp4">
                     </video>
-                    <div class="video-info"><h3>Arcane</h3></div>
-                </div>
-                <div class="video-item">
-                    <video loop muted playsinline preload="metadata" onmouseover="this.play()" onmouseout="this.pause(); this.currentTime = 0;">
-                        <source src="ViDeO/InV.mp4" type="video/mp4">
-                    </video>
-                    <div class="video-info"><h3>Invincible</h3></div>
-                </div>
-                <div class="video-item">
-                    <video loop muted playsinline preload="metadata" onmouseover="this.play()" onmouseout="this.pause(); this.currentTime = 0;">
-                        <source src="ViDeO/Ben10.mp4" type="video/mp4">
-                    </video>
-                    <div class="video-info"><h3>Ben 10</h3></div>
+                    <div class="video-info">
+                        <h3>Nuovo Video</h3>
+                    </div>
                 </div>
             </div>
+
         </div>
         
-                <div id="graphics-section" class="content-section">
-                    <div class="graphics-grid">
-                        
-                        <div class="graphic-item">
-                            <div class="graphic-wrapper">
-                                <img src="GraFik/LIGHT.png" alt="Grafica 1">
-                                <div class="graphic-info">
-                                    <h3>LIGHT</h3>
-                                    <p>Poster</p>
-                                </div>
+<div id="graphics-section" class="content-section">
+            
+            <div style="width: 100%; margin: 20px 0 30px 0;">
+                <h2 style="font-size: 2.5rem; font-weight: 900; text-transform: uppercase; color: #ffffff; margin: 0; letter-spacing: -1px; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);">
+                    SERIE I
+                </h2>
+            </div>
+            
+            <div class="graphics-custom-layout">
+                
+                <div class="gfx-column">
+                    <div class="graphic-item">
+                        <div class="graphic-wrapper">
+                            <img src="GraFik/LIGHT.png" alt="LIGHT">
+                            <div class="graphic-info">
+                                <h3>LIGHT</h3>
+                                <p>Poster</p>
                             </div>
                         </div>
-                                
-                <div class="graphic-item" style="aspect-ratio: 1 / 1 !important; display: flex !important; flex-direction: column !important;">
-                    <div class="graphic-wrapper" style="height: 100% !important; width: 100% !important;">
-                        <img src="LOGO - DeD 2.jpg" alt="Titolo Progetto" style="width: 100% !important; height: 100% !important; object-fit: cover !important; aspect-ratio: 1 / 1 !important;">
-                        <div class="graphic-info">
-                            <h3>DeD</h3>
-                            <p>Branding / Logo Design</p>
+                    </div>
+                    
+                    <div class="graphic-item">
+                        <div class="graphic-wrapper">
+                            <img src="GraFik/ObServE.jpg" alt="OBSERVE">
+                            <div class="graphic-info">
+                                <h3>OBSERVE</h3>
+                                <p>Magazine</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-
-
-                <div class="graphic-item">
-                    <div class="graphic-wrapper">
-                        <img src="GraFik/FAITH.png" alt="Titolo Progetto">
-                        <div class="graphic-info">
-                            <h3>FAITH</h3>
-                            <p>Poster</p>
+                        
+                <div class="gfx-column center-col">
+                    <div class="graphic-item">
+                        <div class="graphic-wrapper">
+                            <img src="Tavola disegno 3.png" alt="DeD">
+                            <div class="graphic-info">
+                                <h3>DeD</h3>
+                                <p>Logo Design</p>
+                            </div>
                         </div>
                     </div>
+
+                    <div class="deco-line"></div>
+
+                    <div class="graphic-item">
+                        <div class="graphic-wrapper">
+                            <img src="GraFik/TEzY.png" alt="TEZY VEEREN">
+                            <div class="graphic-info">
+                                <h3>TEZY VEEREN</h3>
+                                <p>Poster Concerto</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="deco-line"></div>
                 </div>
+
+                <div class="gfx-column">
+                    <div class="graphic-item">
+                        <div class="graphic-wrapper">
+                            <img src="GraFik/FAITH.png" alt="FAITH">
+                            <div class="graphic-info">
+                                <h3>FAITH</h3>
+                                <p>Poster</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="graphic-item">
+                        <div class="graphic-wrapper">
+                            <img src="GraFik\FeB.jpeg" alt="Grafica">
+                            <div class="graphic-info">
+                                <h3>Seasons</h3>
+                                <p>Poster</p>
+                            </div>
+                        </div>
+                    </div>  
+                </div>
+
+            </div>
+
+            <div class="section-divider-black"></div>
+
+            <div class="section-3d-wrapper">
+                <h2 class="title-3d">3D graphics</h2>
                 
-                <div class="graphic-item">
-                    <div class="graphic-wrapper">
-                        <img src="GraFik/ObServE.jpg" alt="Titolo Progetto">
-                        <div class="graphic-info">
-                            <h3>OBSERVE</h3>
-                            <p>Poster</p>
+                <div class="graphic-item item-3d-wide" id="threedSlider" style="cursor: ew-resize; user-select: none; position: relative; transform: none !important; border-color: #222 !important; box-shadow: none !important;">
+                    <div class="graphic-wrapper" style="position: relative; width: 100%; overflow: hidden;">
+                        
+                        <img src="GraFik\BMO.png" alt="BMO Color" style="width: 100%; height: auto; display: block; pointer-events: none; transform: none !important;">
+                        
+                        <div class="resize-container" style="position: absolute; top: 0; left: 0; width: 50%; height: 100%; overflow: hidden; z-index: 2; pointer-events: none;">
+                            <img src="GraFik\BMO C.png" alt="BMO BW" class="img-bw" style="position: absolute; top: 0; left: 0; height: 100%; display: block; pointer-events: none; transform: none !important; max-width: none !important;">
                         </div>
-                    </div>
-                </div>  
+                        
+                        <div class="slider-line" style="position: absolute; top: 0; left: 50%; width: 4px; height: 100%; background-color: var(--accent-cyan); box-shadow: 0 0 10px rgba(0, 196, 214, 0.6); z-index: 3; transform: translateX(-50%); pointer-events: none;"></div>
 
-                <div class="graphic-item">
-                    <div class="graphic-wrapper">
-                        <img src="GraFik/TEzY.png" alt="Titolo Progetto">
-                        <div class="graphic-info">
-                            <h3>TEZY VEEREN</h3>
-                            <p>Poster</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="graphic-item">
-                    <div class="graphic-wrapper">
-                        <img src="untitled.png" alt="Titolo Progetto">
-                        <div class="graphic-info">
+                        <div class="graphic-info" style="z-index: 4;">
                             <h3>BMO</h3>
                             <p>Grafica 3D</p>
                         </div>
                     </div>
                 </div>  
             </div>
-        </div>
 
-    </div>
-
-    <footer class="main-footer">
+ </div> </div> </div> <footer class="main-footer">
         <div class="footer-content">
             <p class="footer-text">©2026 DeD Studio. Tutti i diritti per i Fronzoli.</p>
             <div class="footer-nav">
@@ -723,29 +842,29 @@
                     { nome: "19/40", titoloCard: "Schiavi", rarita: "C", immagine: "CarD - Collection/Card Collection/22.png", desc: "<i>“SCHIAVI...e un po' gay?”</i>" },
                     { nome: "20/40", titoloCard: "Freaky", rarita: "R", immagine: "CarD - Collection/Card Collection/23.png", desc: "<i>“Freaky MODE....actived”</i>" },
                     { nome: "21/40", titoloCard: "La Gang", rarita: "C", immagine: "CarD - Collection/Card Collection/24.png", desc: "<i>“Quando la gang è insieme...solo follie”</i>" },
-                    { nome: "22/40", titoloCard: "Brothers", rarita: "C", immagine: "CarD - Collection/Card Collection/25.png", desc: "<i>“Un fratello per scelta”</i>" },
+                    { nome: "22/40", titoloCard: "Brothers", rarita: "C", immagine: "CarD - Collection/Card Collection/25.png", desc: "<i>Un fratello per scelta</i>" },
                     { nome: "23/40", titoloCard: "Sticker", rarita: "C", immagine: "CarD - Collection/Card Collection/26.png", desc: "<i>“Simile al suo sticker preferito...”</i>" },
                     { nome: "24/40", titoloCard: "Kiss Me", rarita: "NC", immagine: "CarD - Collection/Card Collection/27.png", desc: "<i>“Kiss me....please!”</i>" },
                     { nome: "25/40", titoloCard: "Ninnna Nanna", rarita: "C", immagine: "CarD - Collection/Card Collection/28.png", desc: "<i>“Eh...quante dormite cosi..”</i>" },
                     { nome: "26/40", titoloCard: "Grigliata", rarita: "C", immagine: "CarD - Collection/Card Collection/29.png", desc: "<i>“Montagna e carne...alla fine ci siamo mangiati anche una pizza”</i>" },
                     { nome: "27/40", titoloCard: "Bachata?", rarita: "SR", immagine: "CarD - Collection/Card Collection/30.png", desc: "<i>Bachata? No bro… questa è Gay-chata!</i>" },
-                    { nome: "28/40", titoloCard: "Attaccami!", rarita: "R", immagine: "CarD - Collection/Card Collection/31.png", desc: "<i>“Una tranquilla partita di risiko...”</i>" },
-                    { nome: "29/40", titoloCard: "Abbraccio", rarita: "C", immagine: "CarD - Collection/Card Collection/32.png", desc: "<i>“Claudio...ho bisogno di un'abbraccio”</i>" },
-                    { nome: "30/40", titoloCard: "Trauma.EXE", rarita: "R", immagine: "CarD - Collection/Card Collection/33.png", desc: "<i>“Thousand Yard Stare”</i>" },
-                    { nome: "31/40", titoloCard: "Fascino PGT", rarita: "C", immagine: "CarD - Collection/Card Collection/34.png", desc: "<i>“Hmmm....si, sei propio bello!”</i>" },
-                    { nome: "32/40", titoloCard: "Il Tuffo", rarita: "R", immagine: "CarD - Collection/Card Collection/35.png", desc: "<i>“Il grande tuffo nel naviglio di Beppe”</i>" },
-                    { nome: "33/40", titoloCard: "Baffo Man", rarita: "C", immagine: "CarD - Collection/Card Collection/36.png", desc: "<i>“Che ricordi...il baffo, stavo proprio bene”</i>" },
-                    { nome: "34/40", titoloCard: "To Record", rarita: "NC", immagine: "CarD - Collection/Card Collection/37.png", desc: "<i>“STRABRASILIANE e TI MANCO...due hit fortissime!”</i>" },
-                    { nome: "35/40", titoloCard: "Il Campione", rarita: "SR", immagine: "CarD - Collection/Card Collection/38.png", desc: "<i>“Il Campione di Clash Royal del server DS: Friends”</i>" },
-                    { nome: "36/40", titoloCard: "Le Coccole", rarita: "C", immagine: "CarD - Collection/Card Collection/39.png", desc: "<i>“VIENI QUII...PASTICCINOOO!!”</i>" },
-                    { nome: "37/40", titoloCard: "Beppe", rarita: "SR", immagine: "CarD - Collection/Card Collection/40.png", desc: "<i>“Beppe in 60's style”</i>" },
-                    { nome: "38/40", titoloCard: "Re della Patata", rarita: "SR", immagine: "CarD - Collection/Card Collection/41.png", desc: "<i>“Il sacro Re della patata seduto nel suo trono...aspettando la sua patatina”</i>" },
-                    { nome: "39/40", titoloCard: "Alle Giostre", rarita: "R", immagine: "CarD - Collection/Card Collection/42.png", desc: "<i>“Tanto divertimento e tante vincite, WUUPIII!!”</i>" },
-                    { nome: "40/40", titoloCard: "Ricordi", rarita: "SR", immagine: "CarD - Collection/Card Collection/43.png", desc: "<i>“Tanti ricordi...di momenti indimenticabili, di momenti folli!”</i>" }
+                    { nome: "28/40", titoloCard: "Attaccami!", rarita: "R", immagine: "Card - Collection/Card Collection/31.png", desc: "<i>“Una tranquilla partita di risiko...”</i>" },
+                    { nome: "29/40", titoloCard: "Abbraccio", rarita: "C", immagine: "Card - Collection/Card Collection/32.png", desc: "<i>“Claudio...ho bisogno di un'abbraccio”</i>" },
+                    { nome: "30/40", titoloCard: "Trauma.EXE", rarita: "R", immagine: "Card - Collection/Card Collection/33.png", desc: "<i>“Thousand Yard Stare”</i>" },
+                    { nome: "31/40", titoloCard: "Fascino PGT", rarita: "C", immagine: "Card - Collection/Card Collection/34.png", desc: "<i>“Hmmm....si, sei propio bello!”</i>" },
+                    { nome: "32/40", titoloCard: "Il Tuffo", rarita: "R", immagine: "Card - Collection/Card Collection/35.png", desc: "<i>“Il grande tuffo nel naviglio di Beppe”</i>" },
+                    { nome: "33/40", titoloCard: "Baffo Man", rarita: "C", immagine: "Card - Collection/Card Collection/36.png", desc: "<i>“Che ricordi...il baffo, stavo proprio bem”</i>" },
+                    { nome: "34/40", titoloCard: "To Record", rarita: "NC", immagine: "Card - Collection/Card Collection/37.png", desc: "<i>“STRABRASILIANE e TI MANCO...due hit fortissime!”</i>" },
+                    { nome: "35/40", titoloCard: "Il Campione", rarita: "SR", immagine: "Card - Collection/Card Collection/38.png", desc: "<i>“Il Campione di Clash Royal del server DS: Friends”</i>" },
+                    { nome: "36/40", titoloCard: "Le Coccole", rarita: "C", immagine: "Card - Collection/Card Collection/39.png", desc: "<i>“VIENI QUII...PASTICCINOOO!!”</i>" },
+                    { nome: "37/40", titoloCard: "Beppe", rarita: "SR", immagine: "Card - Collection/Card Collection/40.png", desc: "<i>“Beppe in 60's style”</i>" },
+                    { nome: "38/40", titoloCard: "Re della Patata", rarita: "SR", immagine: "Card - Collection/Card Collection/41.png", desc: "<i>“Il sacro Re della patata seduto nel suo trono...aspettando la sua patatina”</i>" },
+                    { nome: "39/40", titoloCard: "Alle Giostre", rarita: "R", immagine: "Card - Collection/Card Collection/42.png", desc: "<i>“Tanto divertimento e tante vincite, WUUPIII!!”</i>" },
+                    { nome: "40/40", titoloCard: "Ricordi", rarita: "SR", immagine: "Card - Collection/Card Collection/43.png", desc: "<i>“Tanti ricordi...di moments indimenticabili, di momenti folli!”</i>" }
                 ]
             },
             "set-promo": {
-                titolo: "PROMO - A",
+                titolo: "PROMO",
                 dorso: "DORSO_CARTA.png",
                 carte: [
                     { nome: "01/02", titoloCard: "CO-OP", rarita: "SR", immagine: "Card - Collection Promo/1.png", desc: "<i>Carta promozionale speciale.</i>" },
@@ -753,20 +872,20 @@
                 ]
             },
             "Extra-Set": {
-                titolo: "SET - EX01",
+                titolo: "SET - EX",
                 dorso: "DORSO_CARTA2.png",
                 carte: [
                     { nome: "01/19", titoloCard: "Giuseppe", rarita: "C", immagine: "Card Game Collection SET°01/1.png", desc: "<i>- Pisolino Epico — All'inizio del tuo turno puoi chiudere gli occhi per 10 secondi. Se lo fai, guadagni 2 vita. Se qualcuno ti chiama e rispondi, perdi 2 vita. <br><br>- Sabbia Ovunque — Quando questa creatura viene bersagliata, tutti i giocatori devono soffiare verso il tavolo. Il primo che ride perde 1 vita.</i>" },
                     { nome: "02/19", titoloCard: "Gioele", rarita: "C", immagine: "Card Game Collection SET°01/2.png", desc: "<i>- Verso Imbarazzante — Quando questa creatura entra in gioco, devi fare un verso strano (tipo “rghhhh”, “Bau”, Rgh-bau-arf, ecc.). <br>• Se qualcuno ride, pesca una carta. <br>• Se nessuno ride, perdi 2 vita per disagio.</i>" }, 
                     { nome: "03/19", titoloCard: "Moba", rarita: "NC", immagine: "Card Game Collection SET°01/3.png", desc: "<i>- Missione Cerotto — Quando questa creatura entra in gioco, devi avvicinarti a un giocatore e chiedere un cerotto. <br>• Se qualcuno glielo “consegna” (dice “grazie”), pesca una carta. <br>• Se nessuno glielo dà, perde 1 vita per frustrazione.</i>" }, 
-                    { nome: "04/19", titoloCard: "Jean", rarita: "C", immagine: "Card Game Collection SET°01/4.png", desc: "<i>- Sguardo Magnetico — Quando entra in gioco, scegli un giocatore: deve guardarti negli occhi per almeno 3 secondi. <br>• Se lo fa, pesca una carta. <br>• Se distoglie lo sguardo, perde 1 vita.</i>" }, 
+                    { nome: "04/19", titoloCard: "Jean", rarita: "C", immagine: "Card Game Collection SET°01/4.png", desc: "<i>- Sguardo Magnetico — Quando entra in gioco, Scegli un giocatore: deve guardarti negli occhi per almeno 3 secondi. <br>• Se lo fa, pesca una carta. <br>• Se distoglie lo sguardo, perde 1 vita.</i>" }, 
                     { nome: "05/19", titoloCard: "Andres", rarita: "C", immagine: "Card Game Collection SET°01/5.png", desc: "<i>- Questa carta non fa nulla, sta solo performando.....DUN DUN DUN DUUUUN....</i>" }, 
                     { nome: "06/19", titoloCard: "Claudio", rarita: "NC", immagine: "Card Game Collection SET°01/6.png", desc: "<i>- Ultimo Trancio — Quando entra questa carta dovete ordinare una pizza da mangiare in due, quando arrivate all'ultima fetta chi dice prima “L'ultima fetta!!”, il giocatore sceglie: <br>• Recuperare 5 PV. <br>• Pescate una carta entrambi i giocatori.</i>" }, 
                     { nome: "07/19", titoloCard: "Dadà", rarita: "C", immagine: "Card Game Collection SET°01/7.png", desc: "<i>- Confusione Totale — In qualsiasi momento, puoi girare su te stesso una volta. <br>• Se perdi l'equilibrio, pesca 2 carte. <br>• Se resti in piedi, perdi 1 vita per averci provato troppo seriamente. <br>• Se qualcuno ride, anche lui perde 1 vita.</i>" }, 
                     { nome: "08/19", titoloCard: "Morso", rarita: "C", immagine: "Card Game Collection SET°01/8.png", desc: "<i>- Quando giochi questa carta devi scegliere il giocatore avversario e morderlo. <br>• Se il giocatore urla o fa un verso, subisce 15 danni. <br>• Se il giocatore non reagisce, subisce 2 danni.</i>" }, 
                     { nome: "09/19", titoloCard: "Pisolino in Spiaggia", rarita: "NC", immagine: "Card Game Collection SET°01/9.png", desc: "<i>Questa carta fa addormentare all'instante una creatura. <br>Se il giocatore si addormenta all'improviso durante la partita l'avversario vince il game.</i>" },
                     { nome: "10/19", titoloCard: "Cagato nel Puzzo", rarita: "SR", immagine: "Card Game Collection SET°01/10.png", desc: "<i>• Questa carta riduce la costituzione di “Boi Seppellito” a 0/10. <br>• Pesca una 1 carta.</i>" },
-                    { nome: "11/19", titoloCard: "Boi Seppellito", rarita: "SSR", immagine: "Card Game Collection SET°01/11.png", desc: "<i>• Questa carta non può attaccare. <br>• Questa carta riduce di 1 tutto il danno che subisce (minimo 0). <br>• Se questa carta viene attaccata, recupera 1 punto costituzione</i>" },
+                    { nome: "11/19", titoloCard: "Boi Seppellito", rarita: "SSR", immagine: "Card Game Collection SET°01/11.png", desc: "<i>• Questa carta non può attaccare. <br>• Questa carta riduce di 1 tutto il danno che subisce (minimo 0). <br>• Se questa carta viene attaccata, recupera 1 point costituzione</i>" },
                     { nome: "12/19", titoloCard: "Pesce di Pasqua", rarita: "R", immagine: "Card Game Collection SET°01/12.png", desc: "<i>Solo una volta per partita, puoi “nascondere” questa carta nel tuo campo: rimane nascosta fino a quando un avversario prova ad attaccarti direttamente. In quel momento riappare e annulla l'attacco.</i>" },
                     { nome: "13/19", titoloCard: "Boyz", rarita: "C", immagine: "Card Game Collection SET°01/13.png", desc: "<i>Evoca immediatamente sul campo di battaglia le carte: <br>• “Giuseppe”, “Gioele”, “Moba”, “Jean”, “Andres”, “Claudio” e “Dadà”. <br>• Se “Andres” entra in gioco tramite questa magia, ottiene +2/+2 fino alla fine del turno.</i>" },
                     { nome: "14/19", titoloCard: "Ricerca", rarita: "C", immagine: "Card Game Collection SET°01/14.png", desc: "<i>Cerca in giro due carte di qualsiasi gioco, oppure un “Gundam”, e aggiungile nel tuo campo di gioco.</i>" },
@@ -800,22 +919,21 @@
             document.getElementById(sectionId + '-section').classList.add('active');
             btn.classList.add('active');
 
-            // --- AGGIORNAMENTO DINAMICO DEL TESTO DEL BANNER ---
             const bannerTitle = document.querySelector('#welcome-banner h2');
             const bannerText = document.querySelector('#welcome-banner p');
 
             if (sectionId === 'cards') {
                 bannerTitle.innerText = "Esplora la nostra collezione";
                 bannerText.innerText = "Entra nel mondo delle carte, scoprendo i mitici set dei Boyz.";
-                renderSets(); // Mostra i set di carte
+                renderSets(); 
             } 
             else if (sectionId === 'videos') {
-                if(sliderEl) sliderEl.style.display = 'block'; // Assicura che il banner sia visibile nei video
+                if(sliderEl) sliderEl.style.display = 'block'; 
                 bannerTitle.innerText = "Cuts & Frames";
                 bannerText.innerText = "Pronto a guardare? Esplora la video gallery.";
             } 
             else if (sectionId === 'graphics') {
-                if(sliderEl) sliderEl.style.display = 'block'; // Assicura che il banner sia visibile nelle grafiche
+                if(sliderEl) sliderEl.style.display = 'block'; 
                 bannerTitle.innerText = "Graphic Dump";
                 bannerText.innerText = "Creatività senza limiti. I nostri progetti grafici.";
             }
@@ -829,7 +947,6 @@
             headerTitle.innerHTML = NOME_SITO;
             grid.style.display = 'block'; 
 
-            // Ripristina il testo del banner delle carte quando torni all'elenco dei set
             const bannerTitle = document.querySelector('#welcome-banner h2');
             const bannerText = document.querySelector('#welcome-banner p');
             if(bannerTitle && bannerText) {
@@ -851,7 +968,7 @@
                                 <h2>${database[key].titolo}</h2>
                                 <p>${database[key].carte.length} CARTE DISPONIBILI</p>
                             </div>
-                        `).join('')}
+                        `).map(item => item.replace(/Card - Collection\//g, "CarD - Collection/")).join('')}
                     </div>
                 </div>
             `;
@@ -887,11 +1004,10 @@
         }
 
         function apriAnteprima(setKey, cardIndex) {
-            currentSetOpen = setKey;
-            currentCardIndex = cardIndex;
-
             const set = database[setKey];
             const carta = set.carte[cardIndex];
+            currentSetOpen = setKey;
+            currentCardIndex = cardIndex;
 
             document.getElementById('cardFlipper').classList.remove('is-flipped');
             document.getElementById('modalImg').src = carta.immagine;
@@ -924,7 +1040,6 @@
 
         renderSets();
 
-        // INTRO SCREEN CONTROLLO
         window.addEventListener('DOMContentLoaded', () => {
             const intro = document.getElementById('intro-screen');
             const logo = document.querySelector('.center-logo');
@@ -949,7 +1064,6 @@
             }
         });
 
-        // EFFETTO TORCIA
         const contenitore = document.querySelector('.welcome-text');
         const torcia = document.querySelector('.torcia-focus');
 
@@ -965,7 +1079,6 @@
             });
         }
 
-        // MANAGEMENT MENU A TENDINA
         const menuBtn = document.getElementById('menuBtn');
         const dropdownMenu = document.getElementById('dropdownMenu');
 
@@ -977,6 +1090,55 @@
 
             document.addEventListener('click', () => {
                 dropdownMenu.classList.remove('show');
+            });
+        }
+
+// --- LOGICA SLIDER INTERATTIVO PRIMA / DOPO (3D GRAPHICS) ---
+        const slider3D = document.getElementById('threedSlider');
+        if (slider3D) {
+            const resizeContainer = slider3D.querySelector('.resize-container');
+            const sliderLine = slider3D.querySelector('.slider-line');
+            const imgBw = slider3D.querySelector('.img-bw');
+
+            function moveSlider3D(clientX) {
+                const rect = slider3D.getBoundingClientRect();
+                let x = clientX - rect.left;
+                
+                // Forza i limiti dentro il contenitore
+                if (x < 0) x = 0;
+                if (x > rect.width) x = rect.width;
+                
+                let percentage = (x / rect.width) * 100;
+
+                sliderLine.style.left = `${percentage}%`;
+                resizeContainer.style.width = `${percentage}%`;
+            }
+
+            // Mantiene l'immagine in bianco e nero grande quanto tutto il box
+            function fixBwImageWidth() {
+                if (slider3D && imgBw) {
+                    imgBw.style.width = `${slider3D.offsetWidth}px`;
+                }
+            }
+
+            // Ascolta il movimento del mouse e del touch
+            slider3D.addEventListener('mousemove', (e) => {
+                moveSlider3D(e.clientX);
+            });
+
+            slider3D.addEventListener('touchmove', (e) => {
+                if(e.touches.length > 0) {
+                    moveSlider3D(e.touches[0].clientX);
+                }
+            });
+
+            // Adatta la larghezza al ridimensionamento della finestra o al cambio sezione
+            window.addEventListener('resize', fixBwImageWidth);
+            
+            // Esegui il fix all'avvio e ad ogni cambio sezione per sicurezza
+            setTimeout(fixBwImageWidth, 300);
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.addEventListener('click', () => setTimeout(fixBwImageWidth, 50));
             });
         }
     </script>
