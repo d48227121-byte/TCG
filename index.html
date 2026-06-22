@@ -20,6 +20,7 @@
             --color-r: #3498db;  
             --color-sr: #9b59b6;
             --color-ssr: #f1c40f;
+            --color-sp: #ff3838;
             --accent-cyan: #00C4D6;   
             --accent-orange: #D65A00;
         }
@@ -154,15 +155,60 @@
         /* --- GRID SET & CARDS --- */
         .album-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
         
+        .sets-side {
+            flex: 1.2;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            justify-content: center;
+        }
+
         .set-card {
-            background: linear-gradient(145deg, var(--accent-cyan), #111);
-            border: 1px solid #333; border-radius: 20px; padding: 80px 30px;
-            text-align: center; cursor: pointer; transition: 0.4s;
-            position: relative; overflow: hidden;
-            flex: 1 1 300px !important;
+            background-color: var(--card-bg);
+            border: 3px solid #ffffff;
+            border-radius: 14px;
+            padding: 25px 35px;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.075, 0.82, 0.165, 1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
         }
         
+        .set-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 6px;
+            height: 100%;
+            background-color: var(--accent-cyan);
+            transition: width 0.2s ease;
+        }
+
+        .set-card:nth-child(2)::before { background-color: var(--accent-orange); }
+        .set-card:nth-child(3)::before { background-color: #9b59b6; }
         .set-card:hover { transform: translateY(-10px); border-color: var(--accent-orange); box-shadow: 0 20px 40px rgba(255, 96, 33, 0.2); }
+
+        .set-card:hover::before {
+            width: 12px;
+        }
+
+        .set-card h2 {
+            margin: 0 0 5px 0;
+            font-size: 1.8rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .set-card p {
+            margin: 0;
+            color: #888888;
+            font-weight: 700;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
 
         .card-item {
             background: var(--card-bg); padding: 15px; border-radius: 18px; 
@@ -189,16 +235,13 @@
 
         /* --- VIDEO (9:16) --- */
         .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
-        .video-item { 
-            background: #111; border-radius: 20px; overflow: hidden; 
-            border: 1px solid #222; transition: 0.4s; position: relative; 
-        }
+        .video-item { background: #111; border-radius: 20px; overflow: hidden; border: 1px solid #222; transition: 0.4s; position: relative; }
         .video-item:hover { border-color: var(--accent-orange); transform: translateY(-5px); }
         .video-item video { width: 100%; aspect-ratio: 9/16; object-fit: cover; cursor: pointer; display: block; }
-        .video-info { padding: 20px; background: linear-gradient(transparent, #000); position: absolute; bottom: 0; width: 100%; box-sizing: border-box; pointer-events: none; }
+        .video-info { padding: 20px; background: linear-gradient(transparent, #397f94); position: absolute; bottom: 0; width: 100%; box-sizing: border-box; pointer-events: none; }
         .video-info h3 { margin: 0; font-size: 1.2rem; font-weight: 900; color: #ffffff; }
 
-/* --- SEZIONE GRAFICHE (STRUTTURA A 3 COLONNE FLUIDA E COMPATTA) --- */
+        /* --- SEZIONE GRAFICHE --- */
         .graphics-custom-layout {
             display: flex;
             gap: 25px;
@@ -206,7 +249,6 @@
             align-items: flex-start;
         }
 
-        /* Creiamo le 3 colonne verticali del disegno */
         .gfx-column {
             flex: 1;
             display: flex;
@@ -214,7 +256,6 @@
             gap: 25px;
         }
         
-        /* La colonna centrale ha una larghezza leggermente maggiore (1.1) come da schema */
         .gfx-column.center-col {
             flex: 1.1;
         }
@@ -238,13 +279,12 @@
 
         .graphic-item img {
             width: 100%;
-            height: auto; /* Nessun taglio, mantiene le proporzioni native */
+            height: auto; 
             display: block;
             object-fit: contain;
             transition: transform 0.6s ease;
         }
 
-        /* Linee Nere Orizzontali Decorative del Disegno */
         .deco-line {
             width: 100%;
             height: 4px;
@@ -253,7 +293,6 @@
             margin: 5px 0;
         }
 
-        /* Linea di separazione principale nera prima del 3D */
         .section-divider-black {
             width: 100%;
             height: 6px;
@@ -262,7 +301,6 @@
             border-radius: 3px;
         }
 
-        /* Layout Sezione 3D Inferiore */
         .section-3d-wrapper {
             width: 100%;
         }
@@ -535,6 +573,80 @@
         .dropdown-menu a:hover { background-color: rgba(255, 255, 255, 0.08) !important; }
         .dropdown-menu.show { display: flex !important; }
 
+/* --- STILI SKETCHBOOK 3D --- */
+.sketchbook-container {
+            position: relative; /* Serve per allineare lo sfondo */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 0;
+            perspective: 2500px;
+        }
+
+        /* STILE DEL RETTANGOLO DIETRO */
+        .sketchbook-bg {
+            position: absolute;
+            width: 860px;  /* Poco più largo del libro aperto (800px) */
+            height: 600px; /* Poco più alto del libro (550px) */
+            background: #1b3609; /* Colore del rettangolo (puoi cambiarlo es. #111 o un grigio scuro) */
+            border-radius: 20px;
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.6), 0 10px 30px rgba(0,0,0,0.5);
+            transform: translateZ(-10px); /* Lo spinge fisicamente DIETRO nello spazio 3D */
+            z-index: 0;
+        }
+
+.sketchbook {
+    position: relative;
+    width: 800px; /* Larghezza totale del libro aperto (400px + 400px) */
+    height: 550px;
+    transform-style: preserve-3d;
+}
+
+.book-page {
+    position: absolute;
+    width: 400px; /* Larghezza esatta di una pagina */
+    height: 100%;
+    top: 0;
+    left: 400px; /* Ancorate esattamente sulla linea di mezzeria (la rilegatura) */
+    transform-origin: left center; /* Ruotano sul cardine sinistro */
+    transform-style: preserve-3d;
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+}
+
+.page-front, .page-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    background-color: #f4f1ea;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    overflow: hidden;
+}
+
+.page-back {
+    transform: rotateY(180deg);
+}
+
+.page-front img, .page-back img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+/* Animazione di girata: ruota a specchio sulla sinistra */
+.book-page.flipped {
+    transform: rotateY(-180deg);
+}
+
+/* Mobile responsive */
+@media (max-width: 900px) {
+    .sketchbook { width: 600px; height: 420px; }
+    .book-page { width: 300px; left: 300px; }
+}
+
         /* --- FOOTER --- */
         .main-footer { background: #111; padding: 30px 20px; text-align: center; border-top: 5px solid var(--accent-orange); margin-top: 50px; }
         .footer-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
@@ -554,6 +666,7 @@
             .graphics-custom-layout { display: flex; flex-direction: column; gap: 20px; }
             .deco-line { display: none; }
             .item-3d-wide { height: 260px; }
+            .sketchbook { width: 300px; height: 420px; }
         }
     </style>
 </head>
@@ -629,6 +742,7 @@
         <button class="nav-btn active" onclick="switchSection('cards', this)">Carte</button>
         <button class="nav-btn" onclick="switchSection('videos', this)">Video</button>
         <button class="nav-btn" onclick="switchSection('graphics', this)">Grafiche</button>
+        <button class="nav-btn" onclick="switchSection('illustrations', this)">Illustration</button>
         <button class="nav-btn" disabled style="opacity: 0.3; cursor: default;">Coming Soon</button>
     </nav>
 
@@ -639,10 +753,8 @@
             <div class="album-grid" id="mainGrid"></div>
         </div>
 
-<div id="videos-section" class="content-section">
-            
+        <div id="videos-section" class="content-section">
             <div style="background-color: #000000; padding: 30px; border-radius: 16px; border: 3px solid #ffffff; box-shadow: 0 15px 40px rgba(0,0,0,0.6); margin-bottom: 40px;">
-                
                 <div class="video-grid">
                     <div class="video-item">
                         <video loop muted playsinline preload="metadata" onmouseover="this.play()" onmouseout="this.pause(); this.currentTime = 0;">
@@ -677,7 +789,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
 
             <div style="width: 100%; display: flex; justify-content: flex-start;">
@@ -690,11 +801,9 @@
                     </div>
                 </div>
             </div>
-
         </div>
         
-<div id="graphics-section" class="content-section">
-            
+        <div id="graphics-section" class="content-section">
             <div style="width: 100%; margin: 20px 0 30px 0;">
                 <h2 style="font-size: 2.5rem; font-weight: 900; text-transform: uppercase; color: #ffffff; margin: 0; letter-spacing: -1px; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);">
                     SERIE I
@@ -702,7 +811,6 @@
             </div>
             
             <div class="graphics-custom-layout">
-                
                 <div class="gfx-column">
                     <div class="graphic-item">
                         <div class="graphic-wrapper">
@@ -772,7 +880,6 @@
                         </div>
                     </div>  
                 </div>
-
             </div>
 
             <div class="section-divider-black"></div>
@@ -782,7 +889,6 @@
                 
                 <div class="graphic-item item-3d-wide" id="threedSlider" style="cursor: ew-resize; user-select: none; position: relative; transform: none !important; border-color: #222 !important; box-shadow: none !important;">
                     <div class="graphic-wrapper" style="position: relative; width: 100%; overflow: hidden;">
-                        
                         <img src="GraFik\BMO.png" alt="BMO Color" style="width: 100%; height: auto; display: block; pointer-events: none; transform: none !important;">
                         
                         <div class="resize-container" style="position: absolute; top: 0; left: 0; width: 50%; height: 100%; overflow: hidden; z-index: 2; pointer-events: none;">
@@ -798,8 +904,88 @@
                     </div>
                 </div>  
             </div>
+        </div>
 
- </div> </div> </div> <footer class="main-footer">
+<div id="illustrations-section" class="content-section">
+    <div style="width: 100%; margin: 20px 0 20px 0; text-align: center;">
+        <h2 style="font-size: 2.5rem; font-weight: 900; text-transform: uppercase; color: #ffffff; margin: 0; letter-spacing: -1px; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);"> SKETCHBOOK </h2>
+        <p style="color: #888; font-weight: 700; margin-top: 5px;">Clicca sulle pagine per sfogliarle</p>
+    </div>
+    
+<div class="sketchbook-container">
+        <div class="sketchbook-bg"></div>
+        <div class="sketchbook" id="mySketchbook">
+            
+            <div class="book-page flipped" style="z-index: 11;" onclick="sfoglia(this)">
+                <div class="page-front" style="background: #8a0000; display: flex; align-items: center; justify-content: center; border-radius: 0 15px 15px 0;">
+                    <h3 style="font-size: 2rem; font-weight: 900; color: #d8d7d6; text-transform: uppercase; margin: 0;"></h3>
+                </div>
+                <div class="page-back">
+                    <img src="ILLU/1.jpg" alt="Sketch 1">
+                </div>
+            </div>
+
+            <div class="book-page" style="z-index: 10;" onclick="sfoglia(this)">
+                <div class="page-front"><img src="ILLU/2.jpg" alt="Sketch 2"></div>
+                <div class="page-back"><img src="ILLU/3.jpg" alt="Sketch 3"></div>
+            </div>
+
+            <div class="book-page" style="z-index: 9;" onclick="sfoglia(this)">
+                <div class="page-front"><img src="ILLU/4.jpg" alt="Sketch 4"></div>
+                <div class="page-back"><img src="ILLU/5.jpg" alt="Sketch 5"></div>
+            </div>
+
+            <div class="book-page" style="z-index: 8;" onclick="sfoglia(this)">
+                <div class="page-front"><img src="ILLU/6.jpg" alt="Sketch 6"></div>
+                <div class="page-back"><img src="ILLU/7.jpg" alt="Sketch 7"></div>
+            </div>
+
+            <div class="book-page" style="z-index: 7;" onclick="sfoglia(this)">
+                <div class="page-front"><img src="ILLU/8.jpg" alt="Sketch 8"></div>
+                <div class="page-back"><img src="ILLU/9.jpg" alt="Sketch 9"></div>
+            </div>
+
+            <div class="book-page" style="z-index: 6;" onclick="sfoglia(this)">
+                <div class="page-front"><img src="ILLU/10.jpg" alt="Sketch 10"></div>
+                <div class="page-back"><img src="ILLU/11.jpg" alt="Sketch 11"></div>
+            </div>
+
+            <div class="book-page" style="z-index: 5;" onclick="sfoglia(this)">
+                <div class="page-front"><img src="ILLU/12.jpg" alt="Sketch 12"></div>
+                <div class="page-back"><img src="ILLU/13.jpg" alt="Sketch 13"></div>
+            </div>
+
+            <div class="book-page" style="z-index: 4;" onclick="sfoglia(this)">
+                <div class="page-front"><img src="ILLU/14.jpg" alt="Sketch 14"></div>
+                <div class="page-back"><img src="ILLU/15.jpg" alt="Sketch 15"></div>
+            </div>
+
+            <div class="book-page" style="z-index: 3;" onclick="sfoglia(this)">
+                <div class="page-front"><img src="ILLU/16.jpg" alt="Sketch 16"></div>
+                <div class="page-back"><img src="ILLU/17.jpg" alt="Sketch 17"></div>
+            </div>
+
+            <div class="book-page" style="z-index: 2;" onclick="sfoglia(this)">
+                <div class="page-front"><img src="ILLU/18.jpg" alt="Sketch 18"></div>
+                <div class="page-back"><img src="ILLU/19.jpg" alt="Sketch 19"></div>
+            </div>
+
+            <div class="book-page" style="z-index: 1;" onclick="sfoglia(this)">
+                <div class="page-front">
+                    <img src="ILLU/20.jpg" alt="Sketch 20">
+                </div>
+                <div class="page-back" style="background: #8a0000; border-radius: 15px 0 0 15px; display: flex; align-items: center; justify-content: center;">
+                    <p style="color: #d8d7d6; font-style: italic; margin: 0;"></p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+    </div>
+
+    <footer class="main-footer">
         <div class="footer-content">
             <p class="footer-text">©2026 DeD Studio. Tutti i diritti per i Fronzoli.</p>
             <div class="footer-nav">
@@ -818,7 +1004,7 @@
 
         const database = {
             "set-base": {
-                titolo: "SET - 01",
+                titolo: "SET-BASE [AMICIZIE FOLLI]",
                 dorso: "DORSO_CARTA.png",
                 carte: [
                     { nome: "01/40", titoloCard: "Dadà", rarita: "C", immagine: "CarD - Collection/Card Collection/4.png", desc: "<i>“Mi piacciono le topoline...”</i>" },
@@ -860,7 +1046,7 @@
                     { nome: "37/40", titoloCard: "Beppe", rarita: "SR", immagine: "Card - Collection/Card Collection/40.png", desc: "<i>“Beppe in 60's style”</i>" },
                     { nome: "38/40", titoloCard: "Re della Patata", rarita: "SR", immagine: "Card - Collection/Card Collection/41.png", desc: "<i>“Il sacro Re della patata seduto nel suo trono...aspettando la sua patatina”</i>" },
                     { nome: "39/40", titoloCard: "Alle Giostre", rarita: "R", immagine: "Card - Collection/Card Collection/42.png", desc: "<i>“Tanto divertimento e tante vincite, WUUPIII!!”</i>" },
-                    { nome: "40/40", titoloCard: "Ricordi", rarita: "SR", immagine: "Card - Collection/Card Collection/43.png", desc: "<i>“Tanti ricordi...di moments indimenticabili, di momenti folli!”</i>" }
+                    { nome: "40/40", titoloCard: "Ricordi", rarita: "SR", immagine: "Card - Collection/Card Collection/43.png", desc: "<i>“Tanti ricordi...di moments indimenticabili, di moments folli!”</i>" }
                 ]
             },
             "set-promo": {
@@ -872,7 +1058,7 @@
                 ]
             },
             "Extra-Set": {
-                titolo: "SET - EX",
+                titolo: "TCG [Road to Toscana]",
                 dorso: "DORSO_CARTA2.png",
                 carte: [
                     { nome: "01/19", titoloCard: "Giuseppe", rarita: "C", immagine: "Card Game Collection SET°01/1.png", desc: "<i>- Pisolino Epico — All'inizio del tuo turno puoi chiudere gli occhi per 10 secondi. Se lo fai, guadagni 2 vita. Se qualcuno ti chiama e rispondi, perdi 2 vita. <br><br>- Sabbia Ovunque — Quando questa creatura viene bersagliata, tutti i giocatori devono soffiare verso il tavolo. Il primo che ride perde 1 vita.</i>" },
@@ -895,9 +1081,63 @@
                     { nome: "18/19", titoloCard: "Lucca", rarita: "C", immagine: "Card Game Collection SET°01/18.png", desc: "<i></i>" },
                     { nome: "19/19", titoloCard: "Alloggio", rarita: "C", immagine: "Card Game Collection SET°01/19.png", desc: "<i></i>" },
                 ]
-            }
+            },
+            "set-02": {
+                titolo: "SET-02 [AVATAR E PIACENZA]",
+                dorso: "DORSO_CARTA.png",
+                carte: [
+                    { nome: "01/25", titoloCard: "Side eye", rarita: "NC", immagine: "card - set 02/1.png" },
+                    { nome: "02/25", titoloCard: "Dadà", rarita: "C", immagine: "card - set 02/2.png" },
+                    { nome: "03/25", titoloCard: "La bambola di Shiva", rarita: "NC", immagine: "card - set 02/3.png" },
+                    { nome: "04/25", titoloCard: "Il Fronzolo", rarita: "C", immagine: "card - set 02/4.png" },
+                    { nome: "05/25", titoloCard: "VR Chay", rarita: "C", immagine: "card - set 02/5.png" },
+                    { nome: "06/25", titoloCard: "Broda", rarita: "NC", immagine: "card - set 02/6.png" },
+                    { nome: "07/25", titoloCard: "Il Pescatore", rarita: "C", immagine: "card - set 02/7.png" },
+                    { nome: "08/25", titoloCard: "Edo", rarita: "R", immagine: "card - set 02/8.png" },
+                    { nome: "09/25", titoloCard: "Crewmates", rarita: "SR", immagine: "card - set 02/9.png" },
+                    { nome: "10/25", titoloCard: "Addetti al camino", rarita: "NC", immagine: "card - set 02/10.png" },
+                    { nome: "11/25", titoloCard: "Massaggio filippino", rarita: "R", immagine: "card - set 02/11.png" },
+                    { nome: "12/25", titoloCard: "Sud'abbracio", rarita: "C", immagine: "card - set 02/12.png" },
+                    { nome: "13/25", titoloCard: "1,2,3...SPARA!!", rarita: "NC", immagine: "card - set 02/13.png" },
+                    { nome: "14/25", titoloCard: "Napoli", rarita: "SR", immagine: "card - set 02/14.png" },
+                    { nome: "15/25", titoloCard: "Incrediboi", rarita: "SSR", immagine: "card - set 02/15.png" },
+                    { nome: "16/25", titoloCard: "Ti soffro", rarita: "SP", immagine: "card - set 02/16.png" },
+                    { nome: "17/25", titoloCard: "Contato con la natura", rarita: "SR", immagine: "card - set 02/17.png" },
+                    { nome: "18/25", titoloCard: "Dichiarazioni d'amore", rarita: "R", immagine: "card - set 02/18.png" },
+                    { nome: "19/25", titoloCard: "Lo schiafo...", rarita: "SSR", immagine: "card - set 02/19.png" },
+                    { nome: "20/25", titoloCard: "...al sionista", rarita: "SSR", immagine: "card - set 02/20.png" },
+                ]
+            },
+            "set-03": {
+                titolo: "MINI-SET [FLASHBACK]",
+                dorso: "DORSO_CARTA.png",
+                carte: [
+                    { nome: "01/13", titoloCard: "Real Valorat", rarita: "NC", immagine: "Card - mini set/1.png" },
+                    { nome: "02/13", titoloCard: "The Mask", rarita: "C", immagine: "Card - mini set/2.png" },
+                    { nome: "03/13", titoloCard: "Gelatino?", rarita: "C", immagine: "Card - mini set/3.png" },
+                    { nome: "04/13", titoloCard: "NO!", rarita: "R", immagine: "Card - mini set/4.png" },
+                    { nome: "05/13", titoloCard: "Ti soffro", rarita: "SR", immagine: "Card - mini set/5.png" },
+                    { nome: "06/13", titoloCard: "Duetto", rarita: "C", immagine: "Card - mini set/6.png" },
+                    { nome: "07/13", titoloCard: "Pisolino", rarita: "NC", immagine: "Card - mini set/7.png" },
+                    { nome: "08/13", titoloCard: "Maghrebi", rarita: "C", immagine: "Card - mini set/8.png" },
+                    { nome: "09/13", titoloCard: "Street music", rarita: "NC", immagine: "Card - mini set/9.png" },
+                    { nome: "10/13", titoloCard: "Un incontro inaspettato", rarita: "SR", immagine: "Card - mini set/10.png" },
+                    { nome: "11/13", titoloCard: "Verso l'incubo...", rarita: "SR", immagine: "Card - mini set/11.png" },
+                    { nome: "12/13", titoloCard: "Il cimitero", rarita: "SSR", immagine: "Card - mini set/12.png" },
+                    { nome: "13/13", titoloCard: "Carrefuor 24/h", rarita: "C", immagine: "Card - mini set/13.png" },
+                ]
+            },
+            "promo 02": {
+                titolo: "PROMO-02",
+                dorso: "DORSO_CARTA.png",
+                carte: [
+                    { nome: "01/03", titoloCard: "Scemo + Scemo", rarita: "SR", immagine: "Card - promo°02/1.png" },
+                    { nome: "02/03", titoloCard: "Tora gang", rarita: "R", immagine: "Card - promo°02/2.png" },
+                    { nome: "03/03", titoloCard: "Mates", rarita: "SSR", immagine: "Card - promo°02/3.png" },
+                ]
+            }           
         };
-
+        
         const grid = document.getElementById('mainGrid');
         const backBtn = document.getElementById('backBtn');
         const headerTitle = document.getElementById('mainTitle');
@@ -910,6 +1150,7 @@
             if (r === 'R') return 'var(--color-r)';
             if (r === 'SR') return 'var(--color-sr)';
             if (r === 'SSR') return 'var(--color-ssr)';
+            if (r === 'SP') return 'var(--color-sp)';
             return '#fff';
         }
 
@@ -937,6 +1178,11 @@
                 bannerTitle.innerText = "Graphic Dump";
                 bannerText.innerText = "Creatività senza limiti. I nostri progetti grafici.";
             }
+            else if (sectionId === 'illustrations') {
+                if(sliderEl) sliderEl.style.display = 'block';
+                bannerTitle.innerText = "Art & Illustration";
+                bannerText.innerText = "Disegno cose...perchè mi piace";    
+            }
 
             window.scrollTo({top: 0, behavior: 'smooth'});
         }
@@ -946,29 +1192,48 @@
             if(sliderEl) sliderEl.style.display = 'block'; 
             headerTitle.innerHTML = NOME_SITO;
             grid.style.display = 'block'; 
+            grid.className = ""; 
 
-            const bannerTitle = document.querySelector('#welcome-banner h2');
-            const bannerText = document.querySelector('#welcome-banner p');
-            if(bannerTitle && bannerText) {
-                bannerTitle.innerText = "Esplora la nostra collezione";
-                bannerText.innerText = "Entra nel mondo delle carte, scoprendo i mitici set dei Boyz.";
-            }
+            const keys = Object.keys(database);
+            
+            const setSopraHtml = keys.slice(0, 3).map(key => `
+                <div class="set-card" onclick="renderCards('${key}')">
+                    <h2>${database[key].titolo}</h2>
+                    <p>${database[key].carte.length} CARTE DISPONIBILI</p>
+                </div>
+            `).join('');
+
+            const setSottoHtml = keys.slice(3, 6).map(key => `
+                <div class="set-card" onclick="renderCards('${key}')">
+                    <h2>${database[key].titolo}</h2>
+                    <p>${database[key].carte.length} CARTE DISPONIBILI</p>
+                </div>
+            `).join('');
 
             grid.innerHTML = `
-                <div class="sets-wrapper">
-                    <div class="featured-side">
-                        <div class="rotating-card">
-                            <div class="card-face-rot"><img src="CarD - Collection/Card Collection/43.png"></div>
-                            <div class="card-face-rot card-back-rot"><img src="DORSO_CARTA.png"></div>
+                <div class="sets-wrapper" style="flex-direction: column !important; gap: 40px !important;">
+                    <div style="display: flex; gap: 50px; width: 100%; align-items: center; flex-wrap: wrap;">
+                        <div class="featured-side" style="position: static;">
+                            <div class="rotating-card">
+                                <div class="card-face-rot"><img src="CarD - Collection/Card Collection/37.png"></div>
+                                <div class="card-face-rot card-back-rot"><img src="DORSO_CARTA.png"></div>
+                            </div>
+                        </div>
+                        <div class="sets-side" style="flex: 1;">
+                            ${setSopraHtml}
                         </div>
                     </div>
-                    <div class="sets-side">
-                        ${Object.keys(database).map(key => `
-                            <div class="set-card" onclick="renderCards('${key}')">
-                                <h2>${database[key].titolo}</h2>
-                                <p>${database[key].carte.length} CARTE DISPONIBILI</p>
+
+                    <div style="display: flex; gap: 50px; width: 100%; align-items: center; flex-wrap: wrap; flex-direction: row-reverse;">
+                        <div class="featured-side" style="position: static;">
+                            <div class="rotating-card" style="animation-delay: -4s;">
+                                <div class="card-face-rot"><img src="Card - mini set/11.png"></div>
+                                <div class="card-face-rot card-back-rot"><img src="DORSO_CARTA.png"></div>
                             </div>
-                        `).map(item => item.replace(/Card - Collection\//g, "CarD - Collection/")).join('')}
+                        </div>
+                        <div class="sets-side" style="flex: 1;">
+                            ${setSottoHtml}
+                        </div>
                     </div>
                 </div>
             `;
@@ -1038,6 +1303,25 @@
             }
         });
 
+        // Logica per sfogliare lo Sketchbook 3D
+function sfoglia(page) {
+    page.classList.toggle('flipped');
+    
+    // Gestione dinamica dello z-index per evitare che le pagine si incastrino visivamente
+    setTimeout(() => {
+        let pages = document.querySelectorAll('.book-page');
+        pages.forEach((p, index) => {
+            if (p.classList.contains('flipped')) {
+                // Le pagine girate a sinistra prendono uno z-index crescente
+                p.style.zIndex = index + 1;
+            } else {
+                // Le pagine ancora a destra mantengono uno z-index decrescente rispetto al totale
+                p.style.zIndex = pages.length - index;
+            }
+        });
+    }, 150); // Piccolo delay per far partire prima l'animazione CSS3
+}
+
         renderSets();
 
         window.addEventListener('DOMContentLoaded', () => {
@@ -1093,7 +1377,6 @@
             });
         }
 
-// --- LOGICA SLIDER INTERATTIVO PRIMA / DOPO (3D GRAPHICS) ---
         const slider3D = document.getElementById('threedSlider');
         if (slider3D) {
             const resizeContainer = slider3D.querySelector('.resize-container');
@@ -1104,7 +1387,6 @@
                 const rect = slider3D.getBoundingClientRect();
                 let x = clientX - rect.left;
                 
-                // Forza i limiti dentro il contenitore
                 if (x < 0) x = 0;
                 if (x > rect.width) x = rect.width;
                 
@@ -1114,14 +1396,12 @@
                 resizeContainer.style.width = `${percentage}%`;
             }
 
-            // Mantiene l'immagine in bianco e nero grande quanto tutto il box
             function fixBwImageWidth() {
                 if (slider3D && imgBw) {
                     imgBw.style.width = `${slider3D.offsetWidth}px`;
                 }
             }
 
-            // Ascolta il movimento del mouse e del touch
             slider3D.addEventListener('mousemove', (e) => {
                 moveSlider3D(e.clientX);
             });
@@ -1132,10 +1412,8 @@
                 }
             });
 
-            // Adatta la larghezza al ridimensionamento della finestra o al cambio sezione
             window.addEventListener('resize', fixBwImageWidth);
             
-            // Esegui il fix all'avvio e ad ogni cambio sezione per sicurezza
             setTimeout(fixBwImageWidth, 300);
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 btn.addEventListener('click', () => setTimeout(fixBwImageWidth, 50));
